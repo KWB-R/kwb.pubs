@@ -1,0 +1,15 @@
+^kwb\.pubs\.Rproj$
+^\.Rhistory$
+^\.RData$
+^\.Rproj\.user$
+^\.here$
+^codecov\.yml$
+^docs$
+^_pkgdown\.yml$
+^LICENSE\.md$
+^.travis\.yml$
+^.gitlab-ci\.yml$
+^appveyor\.yml$
+^index\.Rmd$
+^README\.md$
+^R/\.setup\.R
