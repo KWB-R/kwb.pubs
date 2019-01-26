@@ -15,7 +15,15 @@ Description: Helper Functions For Generating Publications
 License: MIT + file LICENSE
 URL: https://github.com/KWB-R/kwb.pubs
 BugReports: https://github.com/KWB-R/kwb.pubs/issues
+Imports: 
+    fs,
+    magrittr,
+    stringr
+Suggests: 
+    covr, 
+    kwb.endnote
+Remotes:
+    github::kwb-r/kwb.endnote
 Encoding: UTF-8
 LazyData: true
-Suggests: 
-    covr
+RoxygenNote: 6.1.1
