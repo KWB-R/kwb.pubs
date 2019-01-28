@@ -19,6 +19,7 @@ Imports:
     blogdown,
     dplyr,
     fs,
+    magick,
     magrittr,
     rlang,
     stringr,
