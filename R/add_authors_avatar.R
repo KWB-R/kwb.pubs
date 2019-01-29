@@ -17,7 +17,7 @@ config_authors_default <- function() {
 
 get_authors_config <- function(path = config_authors_default()) {
 
-utils::read.csv(file = path, stringsAsFactors = FALSE)
+utils::read.csv(file = path, encoding = "UTF-8", stringsAsFactors = FALSE)
 
 }
 
