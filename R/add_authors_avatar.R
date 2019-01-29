@@ -4,7 +4,8 @@
 
 config_authors_default <- function() {
 
-  system.file("config/authors.csv", package = "kwb.pubs")
+  system.file("config/authors.txt", package = "kwb.pubs")
+
 }
 
 
@@ -12,12 +13,12 @@ config_authors_default <- function() {
 #'
 #' @param path path to authors config (default: config_authors_default())
 #' @return imports authors config as data.frame
-#' @importFrom utils read.csv
+#' @importFrom utils read.delim
 #' @export
 
 get_authors_config <- function(path = config_authors_default()) {
 
-utils::read.csv(file = path, encoding = "UTF-8", stringsAsFactors = FALSE)
+utils::read.delim(file = file(path, encoding = "UCS-2LE"))
 
 }
 
