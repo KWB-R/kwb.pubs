@@ -4,14 +4,10 @@
 \alias{add_authors_metadata}
 \title{Get Authors Metadata}
 \usage{
-add_authors_metadata(authors_config = get_authors_config(),
-  authors_dirname_pattern = "\%s.-\%s")
+add_authors_metadata(authors_config = get_authors_config())
 }
 \arguments{
 \item{authors_config}{default: get_authors_config()}
-
-\item{authors_dirname_pattern}{(default: "%s.-%s" i.e. firstname with dot
-hyphen and lastname)}
 }
 \value{
 add authors metadata (email, dirname)

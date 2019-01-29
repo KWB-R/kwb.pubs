@@ -18,7 +18,8 @@ config_authors_default <- function() {
 
 get_authors_config <- function(path = config_authors_default()) {
 
-utils::read.delim(file = file(path, encoding = "UCS-2LE"))
+utils::read.delim(file = file(path, encoding = "UCS-2LE"),
+                  stringsAsFactors = FALSE)
 
 }
 
@@ -53,32 +54,38 @@ construct_fullname <- function(firstname, lastname) {
 
 #' @keywords internal
 #' @noRd
-#' @importFrom stringr str_to_lower str_to_lower str_trim str_sub str_replace_all
+#' @importFrom stringr str_split str_to_lower str_to_lower str_trim str_sub str_replace_all
 #' @importFrom magrittr %>%
 
 construct_dirname <- function(firstname,
-                              lastname,
-                              pattern = "%s.-%s") {
-  sprintf(pattern,
-  firstname %>%
-  stringr::str_trim() %>%
-  stringr::str_sub(1, 1) %>%
-  stringr::str_to_lower(),
-  lastname %>%
+                              lastname) {
+
+  dir_firstname <- unlist(lapply(seq_along(firstname), function(idx) {
+    tmp <- firstname[idx] %>%
+    stringr::str_trim() %>%
+    stringr::str_split("-|\\s+") %>%
+    unlist() %>%
+    stringr::str_sub(1, 1) %>%
+    stringr::str_to_lower()
+
+    paste0(sprintf("%s.", tmp), collapse = "-")
+}))
+
+
+  dir_lastname <- lastname %>%
     stringr::str_trim() %>%
     stringr::str_replace_all("\\s+", "-") %>%
-    stringr::str_to_lower())
+    stringr::str_to_lower()
+
+  sprintf("%s-%s", dir_firstname, dir_lastname)
 }
 
 #' Get Authors Metadata
 #'
 #' @param authors_config default: get_authors_config()
-#' @param authors_dirname_pattern (default: "%s.-%s" i.e. firstname with dot
-#' hyphen and lastname)
 #' @return add authors metadata (email, dirname)
 #' @export
-add_authors_metadata <- function(authors_config = get_authors_config(),
-                                 authors_dirname_pattern = "%s.-%s") {
+add_authors_metadata <- function(authors_config = get_authors_config()) {
 
   email_idx <- which(is.na(authors_config$social_email))
 
@@ -93,8 +100,7 @@ add_authors_metadata <- function(authors_config = get_authors_config(),
                                                authors_config$lastname)
 
   authors_config$dir_name <- construct_dirname(authors_config$firstname,
-                                               authors_config$lastname,
-                                               pattern = authors_dirname_pattern)
+                                               authors_config$lastname)
 
   authors_config
 
