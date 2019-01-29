@@ -31,7 +31,7 @@ create_author_social <- function(author_metadata) {
 
 
   drop_na_or_empty <- !(is.na(social_metadata) | social_metadata == "")
-  social_metadata <- social_metadata[, drop_na_or_empty]
+  social_metadata <- social_metadata[, drop_na_or_empty, drop = FALSE]
 
 
   social_list <- lapply(names(social_metadata), function(x) {

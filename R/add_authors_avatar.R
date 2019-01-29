@@ -33,9 +33,11 @@ construct_email <- function(firstname, lastname) {
           firstname %>%
             stringr::str_trim() %>%
             stringr::str_to_lower() %>%
+            stringr::str_replace_all("\\s+", "-") %>%
             replace_umlauts(),
           lastname %>%
             stringr::str_trim() %>%
+            stringr::str_replace_all("\\s+", "-") %>%
             stringr::str_to_lower() %>%
             replace_umlauts())
 }
