@@ -8,7 +8,7 @@ name = <fullname>
 superuser = false
 
 # Role/position
-role = "Research Assistant"
+role = <role>"
 
 # Organizations/Affiliations
 #   Separate multiple entries with a comma, using the form: `[ {name="Org1", url=""}, {name="Org2", url=""} ]`.
@@ -26,6 +26,7 @@ email = ""
 #  "Computational Linguistics",
 #  "Information Retrieval"
 #]
+
 <interests>
 
 # List qualifications (such as academic degrees)
