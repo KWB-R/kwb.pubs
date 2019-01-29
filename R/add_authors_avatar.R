@@ -32,10 +32,12 @@ construct_email <- function(firstname, lastname) {
   sprintf("%s.%s@kompetenz-wasser.de",
           firstname %>%
             stringr::str_trim() %>%
-            stringr::str_to_lower(),
+            stringr::str_to_lower() %>%
+            replace_umlauts(),
           lastname %>%
             stringr::str_trim() %>%
-            stringr::str_to_lower())
+            stringr::str_to_lower() %>%
+            replace_umlauts())
 }
 
 #' @keywords internal
@@ -66,7 +68,8 @@ construct_dirname <- function(firstname,
     stringr::str_split("-|\\s+") %>%
     unlist() %>%
     stringr::str_sub(1, 1) %>%
-    stringr::str_to_lower()
+    stringr::str_to_lower() %>%
+    replace_umlauts()
 
     paste0(sprintf("%s.", tmp), collapse = "-")
 }))
@@ -75,7 +78,8 @@ construct_dirname <- function(firstname,
   dir_lastname <- lastname %>%
     stringr::str_trim() %>%
     stringr::str_replace_all("\\s+", "-") %>%
-    stringr::str_to_lower()
+    stringr::str_to_lower() %>%
+    replace_umlauts()
 
   sprintf("%s-%s", dir_firstname, dir_lastname)
 }

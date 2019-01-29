@@ -23,6 +23,7 @@ Imports:
     magrittr,
     rlang,
     tidyr,
+    stringi,
     stringr,
     withr
 Suggests: 
