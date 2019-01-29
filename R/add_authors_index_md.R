@@ -120,9 +120,8 @@ create_author_interests <- function(author_metadata) {
 #' @keywords internal
 #' @noRd
 add_complex_tag <- function(author_md,
-                    author_metadata,
                     tag_pattern = "<social>",
-                    f = create_author_social) {
+                    data) {
 
   tag_idx <- which(stringr::str_detect(string = author_md,
                                        pattern = tag_pattern))
@@ -130,7 +129,7 @@ add_complex_tag <- function(author_md,
   if(length(tag_idx) > 0) {
 
   c(author_md[1:(tag_idx-1)],
-    f(author_metadata),
+    data,
     author_md[(tag_idx+1):length(author_md)])
   } else {
     message(sprintf("No tag %s to add found.", tag_pattern))
@@ -161,9 +160,9 @@ prepare_author_index_md <- function(author_metadata,
                                                pattern = paste0(simple_tags,
                                                                 collapse = "|")))
 
-  ## Change simple tags (one line values: "fullname", "role, "bio_short")
+  ## Change simple tags (one line values: "fullname", "role", "bio_short")
   for(tag_idx in  simple_tags_idx) {
-    tag_full <- template_md[tag_idx] %>%
+    tag_full <-  author_md[tag_idx] %>%
       stringr::str_extract(tags_pattern)
     tag_name <- tag_full %>%
       stringr::str_remove_all("<|>")
@@ -171,7 +170,7 @@ prepare_author_index_md <- function(author_metadata,
    tag_value <- ifelse(is.na(author_metadata[[tag_name]]),
                           "",
                           sprintf('%s\"%s\"',
-                                  stringr::str_remove(template_md[tag_idx],
+                                  stringr::str_remove(author_md[tag_idx],
                                                       tag_full),
                                   author_metadata[[tag_name]] %>%
                                   stringr::str_replace_all("\r", " ") %>%
@@ -181,43 +180,41 @@ prepare_author_index_md <- function(author_metadata,
   }
 
   ## Change "bio_full" tag
-  bio_full_tag_idx <- which(stringr::str_detect(string = template_md,
+  bio_full_tag_idx <- which(stringr::str_detect(string =  author_md,
                                                pattern = "<bio_full>"))
 
-                            tag_full <- template_md[bio_full_tag_idx] %>%
+                            tag_full <- author_md[bio_full_tag_idx] %>%
                               stringr::str_extract(tags_pattern)
                             tag_name <- tag_full %>%
                               stringr::str_remove_all("<|>")
 
-                            tag_value <- ifelse(is.na(author_metadata[[tag_name]]),
+is_na_or_empty <- is.na(author_metadata[[tag_name]]) | author_metadata[[tag_name]]==""
+                            tag_value <- ifelse(is_na_or_empty,
                                                 "",
                                                 author_metadata[[tag_name]] %>%
                                                   stringr::str_replace_all("\r", " ") %>%
                                                   stringr::str_replace_all("\"", "\\\\\""))
 
-                            author_md[tag_idx] <- tag_value
+                            author_md[bio_full_tag_idx] <- tag_value
 
 
   ### Add social tags
 
   author_md <- add_complex_tag(author_md = author_md,
-                               author_metadata = author_metadata,
                                tag_pattern = "<social>",
-                               f = create_author_social())
+                               data = create_author_social(author_metadata))
 
   ### Add interests
 
   author_md <- add_complex_tag(author_md = author_md,
-                               author_metadata = author_metadata,
                                tag_pattern = "<interests>",
-                               f = create_author_interests())
+                               data = create_author_interests(author_metadata))
 
   ### Add education
 
   author_md <- add_complex_tag(author_md = author_md,
-                               author_metadata = author_metadata,
                                tag_pattern = "<education>",
-                               f = create_author_education())
+                               data = create_author_education(author_metadata))
 
   author_md
 

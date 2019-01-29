@@ -8,7 +8,7 @@ name = <fullname>
 superuser = false
 
 # Role/position
-role = <role>"
+role = <role>
 
 # Organizations/Affiliations
 #   Separate multiple entries with a comma, using the form: `[ {name="Org1", url=""}, {name="Org2", url=""} ]`.
