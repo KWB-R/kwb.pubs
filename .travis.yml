@@ -1,5 +1,7 @@
 language: r
 sudo: required
+before_install:
+- sudo apt-get install libmagick++-dev
 cache: packages
 r_packages:
 - remotes
