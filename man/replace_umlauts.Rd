@@ -11,7 +11,7 @@ replace_umlauts(string)
 }
 \value{
 returns string without umlauts but with "ae", "oe", "ue",
-"Ae", "Oe", "Ue" where needed
+"Ae", "Oe", "Ue", "ss" where needed
 }
 \description{
 Replace Umlauts

@@ -13,8 +13,8 @@ replace_authors_umlauts_in_pub_index_md(hugo_root_dir = ".",
 \item{encoding}{default: "UTF-8"}
 }
 \value{
-rewrites "author" field in multiple "index.md" files with
-umlauts but with "ae", "oe", "ue", "Ae", "Oe", "Ue" where needed
+rewrites "author" field in multiple "index.md" files without umlauts
+but with "ae", "oe", "ue", "Ae", "Oe", "Ue", "ss" where needed
 }
 \description{
 Replace Author Umlauts in Multiple Publication Index.md

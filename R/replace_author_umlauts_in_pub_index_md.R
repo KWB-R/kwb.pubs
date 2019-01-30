@@ -3,7 +3,7 @@
 #' @param path path to index.md file
 #' @param encoding  default: "UTF-8"
 #' @return rewrites "index.md" file with umlauts but with "ae", "oe", "ue",
-#' "Ae", "Oe", "Ue" where needed
+#' "Ae", "Oe", "Ue", "ss" where needed
 #' @keywords internal
 #' @noRd
 #' @importFrom stringr str_detect
@@ -46,8 +46,8 @@ get_publication_index_md_paths <- function(hugo_root_dir = ".") {
 #'
 #' @param hugo_root_dir root dir of hugo-academic website (default: ".")
 #' @param encoding  default: "UTF-8"
-#' @return rewrites "author" field in multiple "index.md" files with
-#' umlauts but with "ae", "oe", "ue", "Ae", "Oe", "Ue" where needed
+#' @return rewrites "author" field in multiple "index.md" files without umlauts
+#' but with "ae", "oe", "ue", "Ae", "Oe", "Ue", "ss" where needed
 #' @export
 #'
 replace_authors_umlauts_in_pub_index_md <- function(hugo_root_dir = ".",
