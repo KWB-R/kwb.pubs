@@ -44,6 +44,39 @@ construct_email <- function(firstname, lastname) {
 
 #' @keywords internal
 #' @noRd
+#' @importFrom stringr str_trim str_to_lower str_to_lower
+
+construct_phonenumbers <- function(phonenumbers) {
+
+  unlist(lapply(phonenumbers, function(phonenumber) {
+  phonenumber <- as.character(phonenumber)
+  is_kwb_number <- phonenumber %>%
+    stringr::str_trim() %>%
+    stringr::str_length() == 3
+
+  if(is_kwb_number) {
+    sprintf("+493053653%s", phonenumber)
+  } else {
+    has_countrycode <- stringr::str_detect(phonenumber,
+                                           pattern = "\\+49|0049")
+    if(has_countrycode) {
+      phonenumber
+    } else {
+      has_berlin_code <- stringr::str_detect(phonenumber, pattern = "^030")
+
+      if(has_berlin_code) {
+      sprintf("+49%s",
+              stringr::str_replace(phonenumber,
+                                   pattern = "^030",
+                                   replacement = "30"))
+      } else {
+      sprintf("+4930%s", phonenumber)
+      }
+    }}}))
+}
+
+#' @keywords internal
+#' @noRd
 #' @importFrom stringr str_to_lower str_to_lower
 
 construct_fullname <- function(firstname, lastname) {
@@ -105,8 +138,7 @@ add_authors_metadata <- function(authors_config = get_authors_config()) {
   authors_config$fullname <- construct_fullname(authors_config$firstname,
                                                authors_config$lastname)
 
-  authors_config$dir_name <- construct_dirname(authors_config$firstname,
-                                               authors_config$lastname)
+  authors_config$social_telephone <- construct_phonenumbers(authors_config$social_telephone)
 
   authors_config
 
