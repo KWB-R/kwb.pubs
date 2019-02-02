@@ -138,7 +138,12 @@ add_authors_metadata <- function(authors_config = get_authors_config()) {
   authors_config$fullname <- construct_fullname(authors_config$firstname,
                                                authors_config$lastname)
 
-  authors_config$social_telephone <- construct_phonenumbers(authors_config$social_telephone)
+  authors_config$dir_name <- construct_dirname(authors_config$firstname,
+                                               authors_config$lastname)
+
+
+  authors_config$social_telephone <- construct_phonenumbers(
+    authors_config$social_telephone)
 
   authors_config
 
