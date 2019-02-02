@@ -9,7 +9,7 @@ create_social_icon <- function(icon, icon_pack, link) {
 }
 
 
-create_social_phone <- function(phonenumber) {
+create_social_telephone <- function(phonenumber) {
 
   create_social_icon(icon = "phone",
                      icon_pack = "fas",
