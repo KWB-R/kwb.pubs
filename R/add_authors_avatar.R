@@ -91,7 +91,7 @@ construct_fullname <- function(firstname, lastname) {
 
 #' @keywords internal
 #' @noRd
-#' @importFrom stringr str_split str_to_lower str_to_lower str_trim str_sub str_replace_all
+#' @importFrom stringr str_split str_to_lower  str_trim str_sub str_replace_all
 #' @importFrom magrittr %>%
 
 construct_dirname <- function(firstname,
@@ -119,6 +119,36 @@ construct_dirname <- function(firstname,
   sprintf("%s-%s", dir_firstname, dir_lastname)
 }
 
+#' @keywords internal
+#' @noRd
+#' @importFrom stringr str_split str_to_lower str_to_title str_trim str_sub str_replace_all
+#' @importFrom magrittr %>%
+
+construct_authorname <- function(firstname,
+                              lastname) {
+
+  author_firstname <- unlist(lapply(seq_along(firstname), function(idx) {
+    tmp <- firstname[idx] %>%
+      stringr::str_trim() %>%
+      stringr::str_split("-|\\s+") %>%
+      unlist() %>%
+      stringr::str_sub(1, 1) %>%
+      stringr::str_to_upper() %>%
+      replace_umlauts()
+
+    paste0(sprintf("%s.", tmp), collapse = " ")
+  }))
+
+
+  author_lastname <- lastname %>%
+    stringr::str_trim() %>%
+    stringr::str_replace_all("\\s+", " ") %>%
+    stringr::str_to_title() %>%
+    replace_umlauts()
+
+  sprintf("%s %s", author_firstname, author_lastname)
+}
+
 #' Get Authors Metadata
 #'
 #' @param authors_config default: get_authors_config()
@@ -137,6 +167,9 @@ add_authors_metadata <- function(authors_config = get_authors_config()) {
 
   authors_config$fullname <- construct_fullname(authors_config$firstname,
                                                authors_config$lastname)
+
+  authors_config$author_name <- construct_authorname(authors_config$firstname,
+                                                    authors_config$lastname)
 
   authors_config$dir_name <- construct_dirname(authors_config$firstname,
                                                authors_config$lastname)

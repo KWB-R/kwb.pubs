@@ -117,6 +117,59 @@ create_author_interests <- function(author_metadata) {
 
 }
 
+
+#' Create Author User Groups
+#'
+#' @param author_metadata one record as retrieved by add_authors_metadata()
+#' @return txt with user_groups
+#' @export
+create_author_user_groups <- function(author_metadata) {
+
+  col_name <- "user_groups"
+
+  is_na_or_empty <- is.na(author_metadata[,col_name]) | author_metadata[,col_name]==""
+
+  if(is_na_or_empty) {
+    ""
+  } else {
+    user_groups <- unlist(author_metadata[,col_name] %>%
+                          stringr::str_split(",(\\s+)?"))
+
+    user_groups <- paste0(sprintf('"%s"', user_groups), collapse = ", ")
+
+    c('',
+      sprintf('user_groups = [%s]', user_groups),
+      ''
+    )
+  }
+
+
+}
+
+#' Create Author Name
+#'
+#' @param author_metadata one record as retrieved by add_authors_metadata()
+#' @return txt with author name
+#' @export
+create_author_name <- function(author_metadata) {
+
+  col_name <- "author_name"
+
+  is_na_or_empty <- is.na(author_metadata[,col_name]) | author_metadata[,col_name]==""
+
+  if(is_na_or_empty) {
+    ""
+  } else {
+
+    c('',
+      sprintf('authors = ["%s"]', author_metadata[,col_name]),
+      ''
+    )
+  }
+
+
+}
+
 #' @keywords internal
 #' @noRd
 add_complex_tag <- function(author_md,
@@ -196,6 +249,17 @@ is_na_or_empty <- is.na(author_metadata[[tag_name]]) | author_metadata[[tag_name
                                                   stringr::str_replace_all("\"", "\\\\\""))
 
                             author_md[bio_full_tag_idx] <- tag_value
+
+
+
+  ### Add authors tag
+  author_md <- add_complex_tag(author_md = author_md,
+                               tag_pattern = "<authors>",
+                               data = create_author_name(author_metadata))
+  ### Add user_groups tags
+  author_md <- add_complex_tag(author_md = author_md,
+                               tag_pattern = "<user_groups>",
+                               data = create_author_user_groups(author_metadata))
 
 
   ### Add social tags

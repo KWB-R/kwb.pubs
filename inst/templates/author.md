@@ -1,8 +1,12 @@
 +++
 # Display name
-#name = "Michael Rustler"
 
 name = <fullname>
+
+# Author name (required for "people" without content) 
+# for details see: https://github.com/gcushen/hugo-academic/issues/274#issuecomment-460926722
+
+<authors>
 
 # Is this the primary user of the site?
 superuser = false
@@ -28,6 +32,10 @@ email = ""
 #]
 
 <interests>
+
+# Organizational groups that you belong to (for People widget)
+#   Set this to `[]` or comment out if you are not using People widget.
+<user_groups>
 
 # List qualifications (such as academic degrees)
 #[[education.courses]]
