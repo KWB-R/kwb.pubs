@@ -146,14 +146,14 @@ create_author_user_groups <- function(author_metadata) {
 
 }
 
-#' Create Author Name
+#' Create Author Username
 #'
 #' @param author_metadata one record as retrieved by add_authors_metadata()
-#' @return txt with author name
+#' @return txt with author username
 #' @export
-create_author_name <- function(author_metadata) {
+create_username <- function(author_metadata) {
 
-  col_name <- "author_name"
+  col_name <- "dir_name"
 
   is_na_or_empty <- is.na(author_metadata[,col_name]) | author_metadata[,col_name]==""
 
@@ -252,10 +252,10 @@ is_na_or_empty <- is.na(author_metadata[[tag_name]]) | author_metadata[[tag_name
 
 
 
-  ### Add authors tag
+  ### Add username tag
   author_md <- add_complex_tag(author_md = author_md,
-                               tag_pattern = "<authors>",
-                               data = create_author_name(author_metadata))
+                               tag_pattern = "<username>",
+                               data = create_username(author_metadata))
   ### Add user_groups tags
   author_md <- add_complex_tag(author_md = author_md,
                                tag_pattern = "<user_groups>",
