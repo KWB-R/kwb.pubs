@@ -4,11 +4,10 @@
 \alias{create_code}
 \title{Create Code}
 \usage{
-create_code(repo_names, hugo_root_dir = ".")
+create_code(repo_topics, hugo_root_dir = ".")
 }
 \arguments{
-\item{repo_names}{character vector with code repo acryonms to create
-(as retrieved by pkgmeta::get_github_repos())}
+\item{repo_topics}{data.frame as retrieved by pkgmeta::get_github_repos()}
 
 \item{hugo_root_dir}{root dir of hugo-academic website (default: ".")}
 }
@@ -21,8 +20,7 @@ Create Code
 \examples{
 \dontrun{
 repo_topics <- pkgmeta::get_github_topics()
-repo_names <- stringr::str_replace_all(stringr::str_remove_all(unique(repo_topics$full_name),
-".*/"), "\\\\.", "-")
-create_code(repo_names = repo_names)
+create_code(repo_topics = repo_topics)
 }
+
 }
