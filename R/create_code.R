@@ -57,12 +57,18 @@ create_code <- function(repo_topics,
                                                       dir_repo_names[i])
                                    )
                       fs::dir_delete(sprintf("content/%s",dir_repo_names_without_dot[i]))
+                    })})}
 
+
+  withr::with_dir(hugo_root_dir,
+                  code = {
+                    sapply(seq_along(dir_repo_names), FUN = function(i) {
                       index_md_file <- fs::dir_ls(path = sprintf("content/%s",
                                                 dir_repo_names[i]),
                                                 recursive = TRUE,
                                                 regexp = "\\.md$",
                                                 type = "file")
+                      if(fs::file_exists(index_md_file)) {
                       index_md <- readLines(index_md_file)
 
                       url_code_idx <- grepl(pattern = "^url_code", index_md)
@@ -90,9 +96,9 @@ create_code <- function(repo_topics,
 
                       writeLines(index_md, index_md_file)
 
-                    })
+                    }})
                   })
-  }
+
 
 }
 
