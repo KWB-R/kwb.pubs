@@ -125,15 +125,14 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>create_code</span>(<span class='no'>repo_names</span>, <span class='kw'>hugo_root_dir</span> <span class='kw'>=</span> <span class='st'>"."</span>)</pre>
+    <pre class="usage"><span class='fu'>create_code</span>(<span class='no'>repo_topics</span>, <span class='kw'>hugo_root_dir</span> <span class='kw'>=</span> <span class='st'>"."</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>repo_names</th>
-      <td><p>character vector with code repo acryonms to create
-(as retrieved by pkgmeta::get_github_repos())</p></td>
+      <th>repo_topics</th>
+      <td><p>data.frame as retrieved by pkgmeta::get_github_repos()</p></td>
     </tr>
     <tr>
       <th>hugo_root_dir</th>
@@ -149,10 +148,9 @@
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='no'>repo_topics</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>pkgmeta</span><span class='kw ns'>::</span><span class='fu'>get_github_topics</span>()
-<span class='no'>repo_names</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>stringr</span><span class='kw ns'>::</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_replace.html'>str_replace_all</a></span>(<span class='kw pkg'>stringr</span><span class='kw ns'>::</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_remove.html'>str_remove_all</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unique'>unique</a></span>(<span class='no'>repo_topics</span>$<span class='no'>full_name</span>),
-<span class='st'>".*/"</span>), <span class='st'>"\\."</span>, <span class='st'>"-"</span>)
-<span class='fu'>create_code</span>(<span class='kw'>repo_names</span> <span class='kw'>=</span> <span class='no'>repo_names</span>)
-<span class='co'># }</span></pre>
+<span class='fu'>create_code</span>(<span class='kw'>repo_topics</span> <span class='kw'>=</span> <span class='no'>repo_topics</span>)
+<span class='co'># }</span><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
