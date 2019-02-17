@@ -264,9 +264,9 @@ add_authors_avatar <- function(authors_metadata = add_authors_metadata(),
                                hugo_root_dir = ".") {
 
   sapply(seq_len(nrow(authors_metadata)), FUN = function(idx) {
-    add_author_avatar(author_metadata = authors_metadata[idx,],
+    try(add_author_avatar(author_metadata = authors_metadata[idx,],
                       overwrite,
-                      hugo_root_dir)
+                      hugo_root_dir))
   })
 
 }
