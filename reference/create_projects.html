@@ -125,7 +125,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>create_projects</span>(<span class='no'>project_names</span>, <span class='kw'>hugo_root_dir</span> <span class='kw'>=</span> <span class='st'>"."</span>)</pre>
+    <pre class="usage"><span class='fu'>create_projects</span>(<span class='no'>project_names</span>, <span class='kw'>project_dir</span> <span class='kw'>=</span> <span class='st'>"project"</span>,
+  <span class='kw'>hugo_root_dir</span> <span class='kw'>=</span> <span class='st'>"."</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -134,6 +135,10 @@
       <th>project_names</th>
       <td><p>character vector with project acryonms to create
 (as retrieved by kwb.endnote::clean_references_df()$custom2)</p></td>
+    </tr>
+    <tr>
+      <th>project_dir</th>
+      <td><p>project directory in "content" subfolder (default: "project")</p></td>
     </tr>
     <tr>
       <th>hugo_root_dir</th>
