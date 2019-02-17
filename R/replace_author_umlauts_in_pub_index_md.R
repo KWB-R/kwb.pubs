@@ -11,19 +11,19 @@
 replace_author_umlauts_in_pub_index_md <- function(path,
                                                    encoding = "UTF-8") {
 
-pub_index_txt <- readLines(path,
-                           encoding = encoding)
+  pub_index_txt <- readLines(path,
+                             encoding = encoding)
 
 idx <- which(stringr::str_detect(pub_index_txt, pattern = "^author"))
 
 if (idx > 0) {
   message(sprintf("Replacing German umlauts in '%s'", path))
   pub_index_txt[idx] <- replace_umlauts(pub_index_txt[idx])
-}
 
-writeLines(pub_index_txt,
+  writeLines(pub_index_txt,
            path,
            useBytes = TRUE)
+}
 }
 
 #' Get Publication Index.md Paths
@@ -56,4 +56,23 @@ replace_authors_umlauts_in_pub_index_md <- function(hugo_root_dir = ".",
   paths <- get_publication_index_md_paths(hugo_root_dir)
 
   sapply(paths, replace_author_umlauts_in_pub_index_md, encoding = encoding)
+}
+
+
+change_author_to_lastname_in_pub_index_md <- function(path,
+                                                   encoding = "UTF-8") {
+
+  pub_index_txt <- readLines(path,
+                             encoding = encoding)
+
+  idx <- which(stringr::str_detect(pub_index_txt, pattern = "^author"))
+
+  if (idx > 0) {
+    message(sprintf("Replacing German umlauts in '%s'", path))
+    pub_index_txt[idx] <- replace_umlauts(pub_index_txt[idx])
+  }
+
+  writeLines(pub_index_txt,
+             path,
+             useBytes = TRUE)
 }

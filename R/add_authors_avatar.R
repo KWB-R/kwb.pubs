@@ -116,7 +116,7 @@ construct_dirname <- function(firstname,
     stringr::str_to_lower() %>%
     replace_umlauts()
 
-  sprintf("%s-%s", dir_firstname, dir_lastname)
+  sprintf("%s", dir_lastname)
 }
 
 #' @keywords internal

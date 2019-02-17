@@ -19,6 +19,7 @@ get_unique_project_names <- function(project_names) {
 #'
 #' @param project_names character vector with project acryonms to create
 #' (as retrieved by kwb.endnote::clean_references_df()$custom2)
+#' @param project_dir project directory in "content" subfolder (default: "project")
 #' @param hugo_root_dir root dir of hugo-academic website (default: ".")
 #' @return create index.md for each project_name in subfolder "content/project"
 #' @export
@@ -32,6 +33,7 @@ get_unique_project_names <- function(project_names) {
 #' create_projects(project_names = endnote_df$custom2)
 #' }
 create_projects <- function(project_names,
+                            project_dir = "project",
                             hugo_root_dir = ".") {
 
 
@@ -44,7 +46,8 @@ create_projects <- function(project_names,
                              message(sprintf("Creating project '%s' in hugo_dir = %s",
                                              project_name,
                                              fs::path_abs(hugo_root_dir)))
-                             cmd_proj <- sprintf("new  --kind project project/%s",
+                             cmd_proj <- sprintf("new  --kind project %s/%s",
+                                                 project_dir,
                                                  project_name)
                              blogdown::hugo_cmd(cmd_proj)})})
 }
