@@ -50,11 +50,14 @@ construct_phonenumbers <- function(phonenumbers) {
 
   unlist(lapply(phonenumbers, function(phonenumber) {
   phonenumber <- as.character(phonenumber)
+
   is_kwb_number <- phonenumber %>%
     stringr::str_trim() %>%
     stringr::str_length() == 3
 
-  if(is_kwb_number) {
+  phonenumber <- if(is.na(phonenumber)) {
+    NA_character_
+  } else if(is_kwb_number) {
     sprintf("+493053653%s", phonenumber)
   } else {
     has_countrycode <- stringr::str_detect(phonenumber,
