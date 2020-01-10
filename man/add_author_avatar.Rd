@@ -4,9 +4,15 @@
 \alias{add_author_avatar}
 \title{Add Author Avatar}
 \usage{
-add_author_avatar(author_metadata, overwrite = FALSE,
-  hugo_root_dir = ".", width = 250, height = 300, x_off = 175,
-  y_off = 0)
+add_author_avatar(
+  author_metadata,
+  overwrite = FALSE,
+  hugo_root_dir = ".",
+  width = 250,
+  height = 300,
+  x_off = 175,
+  y_off = 0
+)
 }
 \arguments{
 \item{author_metadata}{one record as retrieved by add_authors_metadata()}

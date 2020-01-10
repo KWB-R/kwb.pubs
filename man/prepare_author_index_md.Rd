@@ -4,8 +4,10 @@
 \alias{prepare_author_index_md}
 \title{Prepare Author "_index.md"}
 \usage{
-prepare_author_index_md(author_metadata,
-  template_author_md = template_author_md_default())
+prepare_author_index_md(
+  author_metadata,
+  template_author_md = template_author_md_default()
+)
 }
 \arguments{
 \item{author_metadata}{one record as retrieved by add_authors_metadata()}

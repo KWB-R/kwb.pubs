@@ -4,8 +4,11 @@
 \alias{add_projects_to_pub_index_md}
 \title{Add Projects to Hugo-Academic Publications}
 \usage{
-add_projects_to_pub_index_md(endnote_df, overwrite = FALSE,
-  hugo_root_dir = ".")
+add_projects_to_pub_index_md(
+  endnote_df,
+  overwrite = FALSE,
+  hugo_root_dir = "."
+)
 }
 \arguments{
 \item{endnote_df}{endnote_df as retrieved by kwb.endnote::create_references_df()

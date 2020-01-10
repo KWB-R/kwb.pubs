@@ -4,8 +4,7 @@
 \alias{create_projects}
 \title{Create Projects}
 \usage{
-create_projects(project_names, project_dir = "project",
-  hugo_root_dir = ".")
+create_projects(project_names, project_dir = "project", hugo_root_dir = ".")
 }
 \arguments{
 \item{project_names}{character vector with project acryonms to create

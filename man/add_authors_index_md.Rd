@@ -4,8 +4,11 @@
 \alias{add_authors_index_md}
 \title{Add Authors Index.md}
 \usage{
-add_authors_index_md(authors_metadata = add_authors_metadata(),
-  overwrite = FALSE, hugo_root_dir = ".")
+add_authors_index_md(
+  authors_metadata = add_authors_metadata(),
+  overwrite = FALSE,
+  hugo_root_dir = "."
+)
 }
 \arguments{
 \item{authors_metadata}{as retrieved by add_authors_metadata()}

@@ -4,8 +4,11 @@
 \alias{add_authors_avatar}
 \title{Add Authors Avatars}
 \usage{
-add_authors_avatar(authors_metadata = add_authors_metadata(),
-  overwrite = FALSE, hugo_root_dir = ".")
+add_authors_avatar(
+  authors_metadata = add_authors_metadata(),
+  overwrite = FALSE,
+  hugo_root_dir = "."
+)
 }
 \arguments{
 \item{authors_metadata}{as retrieved by add_authors_metadata()}

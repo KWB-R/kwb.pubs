@@ -4,8 +4,10 @@
 \alias{replace_authors_umlauts_in_pub_index_md}
 \title{Replace Author Umlauts in Multiple Publication Index.md}
 \usage{
-replace_authors_umlauts_in_pub_index_md(hugo_root_dir = ".",
-  encoding = "UTF-8")
+replace_authors_umlauts_in_pub_index_md(
+  hugo_root_dir = ".",
+  encoding = "UTF-8"
+)
 }
 \arguments{
 \item{hugo_root_dir}{root dir of hugo-academic website (default: ".")}
