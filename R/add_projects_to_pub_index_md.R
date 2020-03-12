@@ -3,6 +3,7 @@
 #' @param endnote_df endnote_df as retrieved by kwb.endnote::create_references_df()
 #' or kwb.endnote::clean_references_df()
 #' @param overwrite should existing "projects" be overwritten (default: FALSE)
+#' @param col_project name of column containing project id (default: "custom2")
 #' @param hugo_root_dir root dir of hugo-academic website (default: ".")
 #' @return add project tags to index.md
 #' @export
@@ -18,6 +19,7 @@
 #' }
 add_projects_to_pub_index_md <- function(endnote_df,
                                          overwrite = FALSE,
+                                         col_project = "custom2",
                                          hugo_root_dir = ".") {
 
 
@@ -39,7 +41,7 @@ add_projects_to_pub_index_md <- function(endnote_df,
   rec_ids <- rec_ids[!is.na(rec_ids)]
 
   recs_in_pubs <- endnote_df[endnote_df$rec_number %in% as.numeric(rec_ids),] %>%
-    dplyr::mutate(project_names = stringr::str_split(.data$custom2,
+    dplyr::mutate(project_names = stringr::str_split(.data[[col_project]],
                                                      ",") %>%
     sapply(function(record) {
       sprintf('projects = [%s]',
@@ -60,7 +62,7 @@ add_projects_to_pub_index_md <- function(endnote_df,
       project_filled_idx <- grepl(pattern = "project(\\s+)?=(\\s+)?\\[", dat)
 
 
-      if(!is.na(sel_rec[["custom2"]])) {
+      if(!is.na(sel_rec[[col_project]])) {
         if(sum(project_empty_idx) == 1) {
         dat[project_empty_idx] <-  sel_rec[["project_names"]]
         } else if (sum(project_filled_idx) == 1 && overwrite) {

@@ -7,6 +7,7 @@
 add_projects_to_pub_index_md(
   endnote_df,
   overwrite = FALSE,
+  col_project = "custom2",
   hugo_root_dir = "."
 )
 }
@@ -15,6 +16,8 @@ add_projects_to_pub_index_md(
 or kwb.endnote::clean_references_df()}
 
 \item{overwrite}{should existing "projects" be overwritten (default: FALSE)}
+
+\item{col_project}{name of column containing project id (default: "custom2")}
 
 \item{hugo_root_dir}{root dir of hugo-academic website (default: ".")}
 }
