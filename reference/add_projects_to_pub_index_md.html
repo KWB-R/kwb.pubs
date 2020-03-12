@@ -132,6 +132,7 @@
     <pre class="usage"><span class='fu'>add_projects_to_pub_index_md</span>(
   <span class='no'>endnote_df</span>,
   <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>col_project</span> <span class='kw'>=</span> <span class='st'>"custom2"</span>,
   <span class='kw'>hugo_root_dir</span> <span class='kw'>=</span> <span class='st'>"."</span>
 )</pre>
 
@@ -146,6 +147,10 @@ or kwb.endnote::clean_references_df()</p></td>
     <tr>
       <th>overwrite</th>
       <td><p>should existing "projects" be overwritten (default: FALSE)</p></td>
+    </tr>
+    <tr>
+      <th>col_project</th>
+      <td><p>name of column containing project id (default: "custom2")</p></td>
     </tr>
     <tr>
       <th>hugo_root_dir</th>
