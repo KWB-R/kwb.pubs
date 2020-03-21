@@ -199,7 +199,7 @@ create_author_dir <- function(author_dirname,
   if(!fs::dir_exists(content_dir)) {
     stop(sprintf("No directory '%s' exists!", fs::path_abs(content_dir)))
   } else {
-    author_dir <- sprintf("%s/author/%s",
+    author_dir <- sprintf("%s/authors/%s",
                           content_dir,
                           author_dirname)
 
