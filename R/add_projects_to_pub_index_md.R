@@ -69,7 +69,7 @@ add_projects_to_pub_index_md <- function(endnote_df,
             dat[project_filled_idx] <-  sel_rec[["project_names"]]
 
         } else {
-         sep_idx <- max(grep(pattern = "\\+\\+\\+", dat))
+         sep_idx <- max(grep(pattern = "\\+\\+\\+|\\-\\-\\-", dat))
          before <- 1:(sep_idx-1)
          after <-  sep_idx:length(dat)
          dat <- c(dat[before],  sel_rec[["project_names"]], dat[after])
