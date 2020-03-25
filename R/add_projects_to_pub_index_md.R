@@ -57,9 +57,9 @@ add_projects_to_pub_index_md <- function(endnote_df,
     pub_index_md <- sprintf("%s%s/index.md", pub_dir, rec_id)
     if(file.exists(pub_index_md)) {
       dat <- readLines(con = pub_index_md)
-      project_empty_idx <- grepl(pattern = "project(\\s+)?=(\\s+)?\"(\\s+)?\"", dat)
+      project_empty_idx <- grepl(pattern = "projects(\\s+)?=(\\s+)?\"(\\s+)?\"", dat)
 
-      project_filled_idx <- grepl(pattern = "project(\\s+)?=(\\s+)?\\[", dat)
+      project_filled_idx <- grepl(pattern = "projects(\\s+)?=(\\s+)?\\[", dat)
 
 
       if(!is.na(sel_rec[[col_project]])) {
