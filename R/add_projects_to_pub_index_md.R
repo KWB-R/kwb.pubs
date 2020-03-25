@@ -44,7 +44,7 @@ add_projects_to_pub_index_md <- function(endnote_df,
     dplyr::mutate(project_names = stringr::str_split(.data[[col_project]],
                                                      ",") %>%
     sapply(function(record) {
-      sprintf('projects = [%s]',
+      sprintf('projects : [%s]',
               sprintf('"%s"', paste0(record, collapse = ", ")))}))
 
 
@@ -57,9 +57,9 @@ add_projects_to_pub_index_md <- function(endnote_df,
     pub_index_md <- sprintf("%s%s/index.md", pub_dir, rec_id)
     if(file.exists(pub_index_md)) {
       dat <- readLines(con = pub_index_md)
-      project_empty_idx <- grepl(pattern = "projects(\\s+)?=(\\s+)?\"(\\s+)?\"", dat)
+      project_empty_idx <- grepl(pattern = "projects(\\s+)?:(\\s+)?\"(\\s+)?\"", dat)
 
-      project_filled_idx <- grepl(pattern = "projects(\\s+)?=(\\s+)?\\[", dat)
+      project_filled_idx <- grepl(pattern = "projects(\\s+)?:(\\s+)?\\[", dat)
 
 
       if(!is.na(sel_rec[[col_project]])) {
@@ -69,7 +69,7 @@ add_projects_to_pub_index_md <- function(endnote_df,
             dat[project_filled_idx] <-  sel_rec[["project_names"]]
 
         } else {
-         sep_idx <- max(grep(pattern = "\\+\\+\\+|\\-\\-\\-", dat))
+         sep_idx <- max(grep(pattern = "\\-\\-\\-", dat))
          before <- 1:(sep_idx-1)
          after <-  sep_idx:length(dat)
          dat <- c(dat[before],  sel_rec[["project_names"]], dat[after])
