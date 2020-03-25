@@ -44,7 +44,7 @@ add_projects_to_pub_index_md <- function(endnote_df,
     dplyr::mutate(project_names = stringr::str_split(.data[[col_project]],
                                                      ",") %>%
     sapply(function(record) {
-      sprintf('projects : [%s]',
+      sprintf('projects: [%s]',
               sprintf('"%s"', paste0(record, collapse = ", ")))}))
 
 
