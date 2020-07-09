@@ -155,8 +155,8 @@ add_kwb_style_to_books <- function(endnote_db_refs) {
     "%s%s%s%s%s",
     add_book_pages(books$pages),
     add_dot_at_start_if_not_empty(books$secondary_title),
-    add_dot_at_start_if_not_empty(books$place_published),
     add_book_publishers(books$publisher),
+    add_dot_at_start_if_not_empty(books$place_published),
     add_doi(books$electronic_resource_number)
   )
   books
@@ -171,8 +171,8 @@ add_kwb_style_to_book_sections <- function(endnote_db_refs) {
     add_book_pages(book_sections$pages),
     add_book_editors(book_sections$secondary_author),
     add_book_title(book_sections$secondary_title),
-    add_dot_at_start_if_not_empty(book_sections$place_published),
     add_book_publishers(book_sections$publisher),
+    add_dot_at_start_if_not_empty(book_sections$place_published),
     add_doi(book_sections$electronic_resource_number)
   )
   book_sections
