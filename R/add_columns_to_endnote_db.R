@@ -4,10 +4,10 @@
 #' [read_endnote_db])
 #'
 #' @return Endnote table with added columns using [add_publishdate_to_endnote_db]
-#' and [add_kwb_style_to_reports]
+#' and [add_kwb_style]
 #' @export
 
 add_columns_to_endnote_db <- function(endnote_db_refs) {
   add_publishdate_to_endnote_db(endnote_db_refs) %>%
-  kwb.pubs::add_kwb_style_to_reports()
+  add_kwb_style()
 }

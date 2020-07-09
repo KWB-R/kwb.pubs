@@ -12,7 +12,7 @@ add_columns_to_endnote_db(endnote_db_refs)
 }
 \value{
 Endnote table with added columns using [add_publishdate_to_endnote_db]
-and [add_kwb_style_to_reports]
+and [add_kwb_style]
 }
 \description{
 add_columns_to_endnote_db
