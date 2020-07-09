@@ -26,20 +26,6 @@ if (idx > 0) {
 }
 }
 
-#' Get Publication Index.md Paths
-#'
-#' @param hugo_root_dir root dir of hugo-academic website (default: ".")
-#' @return vector with absolute paths with all publication "index.md" files
-#' @export
-#' @importFrom fs path_abs dir_ls
-
-get_publication_index_md_paths <- function(hugo_root_dir = ".") {
-
-
-  pub_dir <- fs::path_abs(hugo_root_dir, "content/publication")
-  fs::dir_ls(pub_dir, recursive = TRUE, regexp = "/index.md$")
-
-}
 
 
 #' Replace Author Umlauts in Multiple Publication Index.md
