@@ -15,7 +15,7 @@
 #' endnote_db <- read_endnote_db(path = "../../dms/2020-07-08/KWB-documents_20191205.Data/sdb/sdb.eni")
 #' en_db_with_publishdates <- add_publishdate_to_endnote_db(endnote_db$refs)
 #' }
-#'
+#' @export
 add_publishdate_to_endnote_db <- function(endnote_db_refs) {
     endnote_db_refs %>%
     tibble::as_tibble() %>%
