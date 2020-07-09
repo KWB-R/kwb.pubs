@@ -24,7 +24,7 @@ matrix:
     - Rscript -e 'remotes::install_cran("pkgdown")'
     deploy:
       provider: script
-      script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE, ssh_id = "id_rsa"'
+      script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE, ssh_id = "id_rsa")'
       skip_cleanup: 'true'
       on:
         branch:
