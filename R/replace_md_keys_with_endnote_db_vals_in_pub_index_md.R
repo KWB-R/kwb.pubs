@@ -102,7 +102,7 @@ replace_md_keys_with_endnote_db_vals_in_pub_index_md(md_paths,
                                                      dbg)
 }
 
-#' replace_publishDates_in_pub_index_md
+#' replace_publishdates_in_pub_index_md
 #'
 #' @param md_paths paths to "publication" markdown files
 #' @param endnote_db_refs table "refs" in Endnote DB (as retrieved by
@@ -116,7 +116,7 @@ replace_md_keys_with_endnote_db_vals_in_pub_index_md(md_paths,
 #' @return replaces "publishDate" in markdown files based on values in column
 #' defined with parameter "endnote_db_col"
 #' @export
-replace_publishDates_in_pub_index_md <- function (md_paths,
+replace_publishdates_in_pub_index_md <- function (md_paths,
                                            endnote_db_refs,
                                            md_key = "publishDate",
                                            endnote_db_col = "publishDate",

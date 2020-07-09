@@ -9,5 +9,5 @@
 
 add_columns_to_endnote_db <- function(endnote_db_refs) {
   add_publishdate_to_endnote_db(endnote_db_refs) %>%
-  add_kwb_style_to_reports()
+  kwb.pubs::add_kwb_style_to_reports()
 }
