@@ -75,16 +75,45 @@ add_issue <- function(string) {
   add_curvy_brackets_if_not_empty(string)
 }
 
-
-
-
 add_conference_name <- function(string) {
 add_in_at_start_if_not_empty(string)
 }
 
+# abbreviate_author ------------------------------------------------------------
+abbreviate_author <- function(x) {
+  last_first <- strsplit(x, "\\s*,\\s*")[[1L]]
+
+  if (length(last_first) > 1L) {
+    last_first[2L] <- shorten_first_name(last_first[2L])
+  }
+
+  paste(last_first, collapse = " ")
+}
+
+# shorten_first_name -----------------------------------------------------------
+shorten_first_name <- function(x) {
+  paste(sapply(strsplit(x, "\\s+")[[1]], shorten_dashed_name), collapse = " ")
+}
+
+# shorten_dashed_name ----------------------------------------------------------
+shorten_dashed_name <- function(x) {
+  paste(sapply(strsplit(x, "-")[[1]], dot_after_first_char), collapse = "-")
+}
+
+# dot_after_first_char ---------------------------------------------------------
+dot_after_first_char <- function(x) {
+  paste0(substr(x, 1L, 1L), ".")
+}
+
+
 clean_editors <- function(string) {
 
-  sapply(string, function(eds) {
+  abbreviated <- lapply(strsplit(string, "\r"), function(x) {
+    sapply(x, abbreviate_author, USE.NAMES = FALSE)
+  }) %>%
+    sapply(paste, collapse = "\r")
+
+  sapply(abbreviated, function(eds) {
 
     editors <- stringr::str_split(string = eds,
                                 pattern = "\r")[[1]] %>%
