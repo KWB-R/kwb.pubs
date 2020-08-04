@@ -84,7 +84,9 @@ add_in_at_start_if_not_empty(string)
 
 clean_editors <- function(string) {
 
-    editors <- stringr::str_split(string = string,
+  sapply(string, function(eds) {
+
+    editors <- stringr::str_split(string = eds,
                                 pattern = "\r")[[1]] %>%
     stringr::str_remove(",") %>%
     stringr::str_trim()
@@ -103,6 +105,7 @@ clean_editors <- function(string) {
   } else {
     ""
   }
+  })
 
 }
 
