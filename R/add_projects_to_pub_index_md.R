@@ -22,13 +22,7 @@ add_projects_to_pub_index_md <- function(endnote_df,
                                          col_project = "custom2",
                                          hugo_root_dir = ".") {
 
-
-  hugo_pub_dir <- sprintf("%s/content/publication", hugo_root_dir)
-
-  if(!dir.exists(hugo_pub_dir)) {
-    msg <- sprintf("Hugo publication dir %s does not exist", hugo_pub_dir)
-    stop(msg)
-  }
+  hugo_pub_dir <- check_hugo_pub_dir(hugo_root_dir)
 
   pub_dirs <- fs::dir_ls(hugo_pub_dir, type = "directory")
   pub_id_pattern <- "[0-9]?[0-9]?[0-9]?[0-9]$"
