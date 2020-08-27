@@ -16,23 +16,23 @@ handle_record_1 <- function(rec_id, recs_in_pubs, pub_dir_info)
 
   dat <- readLines(con = pub_index_md)
 
-  abstract_empty_idx <- grepl(pattern = "abstract(\\s+)?=(\\s+)?\"(\\s+)?\"", dat)
-  abstract_filled_idx <- grepl(pattern = "abtract(\\s+)?=(\\s+)?\"\\w+", dat)
+  abstract_is_empty <- grepl(pattern = "abstract(\\s+)?=(\\s+)?\"(\\s+)?\"", dat)
+  abstract_is_filled <- grepl(pattern = "abtract(\\s+)?=(\\s+)?\"\\w+", dat)
 
   clean_abstract <- sel_rec$abstract %>%
     stringr::str_replace_all("\r", " ") %>%
     stringr::str_replace_all("\"", "\\\\\"")
 
-  if (sum(abstract_empty_idx) == 1) {
+  if (sum(abstract_is_empty) == 1) {
 
     print("Adding abstract...")
-    dat[abstract_empty_idx] <- sprintf('abstract = "%s"', clean_abstract)
+    dat[abstract_is_empty] <- sprintf('abstract = "%s"', clean_abstract)
     writeLines(dat, con = pub_index_md,useBytes = TRUE)
 
-  } else if (sum(abstract_filled_idx) == 1 && overwrite) {
+  } else if (sum(abstract_is_filled) == 1 && overwrite) {
 
     print("Adding abstract...")
-    dat[abstract_filled_idx] <- sprintf('abstract = "%s"', clean_abstract)
+    dat[abstract_is_filled] <- sprintf('abstract = "%s"', clean_abstract)
     writeLines(dat, con = pub_index_md,useBytes = TRUE)
 
   } else {
@@ -68,16 +68,16 @@ handle_record_2 <- function(rec_id, recs_in_pubs, pub_dir_info, col_project)
 
   dat <- readLines(con = pub_index_md)
 
-  project_empty_idx <- grepl(pattern = "projects(\\s+)?:(\\s+)?\"(\\s+)?\"", dat)
-  project_filled_idx <- grepl(pattern = "projects(\\s+)?:(\\s+)?\\[", dat)
+  project_is_empty <- grepl(pattern = "projects(\\s+)?:(\\s+)?\"(\\s+)?\"", dat)
+  project_is_filled <- grepl(pattern = "projects(\\s+)?:(\\s+)?\\[", dat)
 
-  if (sum(project_empty_idx) == 1) {
+  if (sum(project_is_empty) == 1) {
 
-    dat[project_empty_idx] <- project_names
+    dat[project_is_empty] <- project_names
 
-  } else if (sum(project_filled_idx) == 1 && overwrite) {
+  } else if (sum(project_is_filled) == 1 && overwrite) {
 
-    dat[project_filled_idx] <- project_names
+    dat[project_is_filled] <- project_names
 
   } else {
 
