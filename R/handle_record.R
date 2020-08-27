@@ -19,30 +19,25 @@ handle_record_1 <- function(rec_id, recs_in_pubs, pub_dir_info)
 
   file <- file_and_record$pub_index_md
 
-  write_abstract <- function(x) {
-    print("Adding abstract...")
-    writeLines(x, file, useBytes = TRUE)
-  }
+  x <- readLines(file)
 
-  dat <- readLines(file)
-
-  is_empty <- grepl(get_pattern("abstract_empty"), dat)
-  is_filled <- grepl(get_pattern("abstract_filled"), dat)
+  is_empty <- grepl(get_pattern("abstract_empty"), x)
+  is_filled <- grepl(get_pattern("abstract_filled"), x)
 
   if (sum(is_empty) == 1) {
 
-    dat[is_empty] <- abstract
-    write_abstract(x = dat)
+    x[is_empty] <- abstract
 
   } else if (sum(is_filled) == 1 && overwrite) {
 
-    dat[is_filled] <- abstract
-    write_abstract(x = dat)
+    x[is_filled] <- abstract
 
   } else {
 
-    dat <- insert_after(dat, "\\+\\+\\+", abstract)
+    x <- insert_after(x, "\\+\\+\\+", abstract)
   }
+
+  write_with_message_adding(x, file, subject = "abstract")
 }
 
 # handle_record_2 --------------------------------------------------------------
@@ -60,26 +55,26 @@ handle_record_2 <- function(rec_id, recs_in_pubs, pub_dir_info, col_project)
     return()
 
   file <- file_and_record$pub_index_md
+
+  x <- readLines(file)
+
   project_names <- file_and_record$record[["project_names"]]
 
-  dat <- readLines(con = file)
-
-  is_empty <- grepl(get_pattern("project_empty"), dat)
-  is_filled <- grepl(get_pattern("project_filled"), dat)
+  is_empty <- grepl(get_pattern("project_empty"), x)
+  is_filled <- grepl(get_pattern("project_filled"), x)
 
   if (sum(is_empty) == 1) {
 
-    dat[is_empty] <- project_names
+    x[is_empty] <- project_names
 
   } else if (sum(is_filled) == 1 && overwrite) {
 
-    dat[is_filled] <- project_names
+    x[is_filled] <- project_names
 
   } else {
 
-    dat <- insert_after(dat, pattern, project_names)
+    x <- insert_after(x, "\\-\\-\\-", project_names)
   }
 
-  message(sprintf("Adding %s", project_names))
-  writeLines(dat, file, useBytes = TRUE)
+  write_with_message_adding(x, file, subject = project_names)
 }

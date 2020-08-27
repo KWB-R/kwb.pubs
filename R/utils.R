@@ -104,3 +104,11 @@ last_matching <- function(pattern, x)
 {
   max(grep(pattern, x))
 }
+
+# write_with_message_adding ----------------------------------------------------
+write_with_message_adding <- function(x, file, subject)
+{
+  message(paste("Adding", subject))
+
+  writeLines(x, file, useBytes = TRUE)
+}
