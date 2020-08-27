@@ -91,6 +91,14 @@ get_record_with <- function(recs_in_pubs, rec_id, field, subject)
   record
 }
 
+# insert_after -----------------------------------------------------------------
+insert_after <- function(x, pattern, what)
+{
+  i <- last_matching(pattern, x)
+
+  c(x[1:(i - 1L)], what, x[i:length(x)])
+}
+
 # last_matching ----------------------------------------------------------------
 last_matching <- function(pattern, x)
 {
