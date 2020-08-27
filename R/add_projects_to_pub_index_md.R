@@ -22,25 +22,14 @@ add_projects_to_pub_index_md <- function(endnote_df,
                                          col_project = "custom2",
                                          hugo_root_dir = ".") {
 
-  hugo_pub_dir <- check_hugo_pub_dir(hugo_root_dir)
+  pub_dir_info <- get_pub_dir_info(check_hugo_pub_dir(hugo_root_dir))
 
-  pub_dirs <- fs::dir_ls(hugo_pub_dir, type = "directory")
-  pub_id_pattern <- "[0-9]?[0-9]?[0-9]?[0-9]$"
-  pub_dir <- unique(stringr::str_remove(pub_dirs,
-                                        pattern = pub_id_pattern))
-
-  rec_ids <- stringr::str_extract(pub_dirs,
-                                  pattern = pub_id_pattern)
-
-  rec_ids <- rec_ids[!is.na(rec_ids)]
-
-  recs_in_pubs <- endnote_df[endnote_df$rec_number %in% as.numeric(rec_ids),] %>%
+  recs_in_pubs <- endnote_df[endnote_df$rec_number %in% pub_dir_info$rec_ids, ] %>%
     dplyr::mutate(project_names = stringr::str_split(.data[[col_project]],
                                                      ",|\r") %>%
     sapply(function(record) {
       sprintf('projects: [%s]',
               sprintf('"%s"', paste0(record, collapse = '", "')))}))
-
 
   for(rec_id in recs_in_pubs$rec_number) {
 
@@ -48,7 +37,7 @@ add_projects_to_pub_index_md <- function(endnote_df,
     sel_rec <- recs_in_pubs[recs_in_pubs$rec_number == as.numeric(rec_id), ]
 
 
-    pub_index_md <- sprintf("%s%s/index.md", pub_dir, rec_id)
+    pub_index_md <- sprintf("%s%s/index.md", pub_dir_info$pub_dir, rec_id)
     if(file.exists(pub_index_md)) {
       dat <- readLines(con = pub_index_md)
       project_empty_idx <- grepl(pattern = "projects(\\s+)?:(\\s+)?\"(\\s+)?\"", dat)

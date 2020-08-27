@@ -10,3 +10,22 @@ check_hugo_pub_dir <- function(hugo_root_dir)
 
   path
 }
+
+# get_pub_dir_info -------------------------------------------------------------
+get_pub_dir_info <- function(hugo_pub_dir)
+{
+  pub_id_pattern <- "[0-9]?[0-9]?[0-9]?[0-9]$"
+
+  pub_dirs <- fs::dir_ls(hugo_pub_dir, type = "directory")
+  pub_dir <- unique(stringr::str_remove(pub_dirs, pattern = pub_id_pattern))
+
+  stopifnot(length(pub_dir) == 1L)
+
+  rec_ids <- stringr::str_extract(pub_dirs, pattern = pub_id_pattern)
+  rec_ids <- as.integer(rec_ids[! is.na(rec_ids)])
+
+  list(
+    pub_dir = pub_dir,
+    rec_ids = rec_ids
+  )
+}
