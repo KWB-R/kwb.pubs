@@ -3,14 +3,15 @@ handle_record_1 <- function(rec_id, recs_in_pubs, pub_dir_info)
 {
   print(sprintf("rec_id: %s", rec_id))
 
-  if (is.null(pub_index_md <- get_pub_index_md_file(pub_dir_info$pub_dir))) {
+  pub_index_md <- get_pub_index_md_file(pub_dir_info$pub_dir)
+
+  if (is.null(pub_index_md)) {
     return()
   }
 
-  sel_rec <- recs_in_pubs[recs_in_pubs$rec_number == rec_id, ]
+  record <- get_record_with(recs_in_pubs, rec_id, "abstract")
 
-  if (is.na(sel_rec$abstract)) {
-    message("no abstract available")
+  if (is.null(record)) {
     return()
   }
 
@@ -19,7 +20,7 @@ handle_record_1 <- function(rec_id, recs_in_pubs, pub_dir_info)
   abstract_is_empty <- grepl(pattern = "abstract(\\s+)?=(\\s+)?\"(\\s+)?\"", dat)
   abstract_is_filled <- grepl(pattern = "abtract(\\s+)?=(\\s+)?\"\\w+", dat)
 
-  clean_abstract <- sel_rec$abstract %>%
+  clean_abstract <- record$abstract %>%
     stringr::str_replace_all("\r", " ") %>%
     stringr::str_replace_all("\"", "\\\\\"")
 
@@ -53,18 +54,19 @@ handle_record_2 <- function(rec_id, recs_in_pubs, pub_dir_info, col_project)
 {
   print(sprintf("rec_id: %s", rec_id))
 
-  if (is.null(pub_index_md <- get_pub_index_md_file(pub_dir_info$pub_dir))) {
+  pub_index_md <- get_pub_index_md_file(pub_dir_info$pub_dir)
+
+  if (is.null(pub_index_md)) {
     return()
   }
 
-  sel_rec <- recs_in_pubs[recs_in_pubs$rec_number == rec_id, ]
+  record <- get_record_with(recs_in_pubs, rec_id, col_project, "project metadata")
 
-  if (is.na(sel_rec[[col_project]])) {
-    message("no project metadata available")
+  if (is.null(record)) {
     return()
   }
 
-  project_names <- sel_rec[["project_names"]]
+  project_names <- record[["project_names"]]
 
   dat <- readLines(con = pub_index_md)
 

@@ -35,14 +35,25 @@ get_pub_index_md_file <- function(pub_dir, rec_id)
 {
   file <- paste0(pub_dir, rec_id, "/index.md")
 
-  if (file.exists(file)) {
-
-    file
-
-  } else {
+  if (! file.exists(file)) {
 
     message(paste(file, "is missing"))
-
-    NULL
+    return(NULL)
   }
+
+  file
+}
+
+# get_record_with --------------------------------------------------------------
+get_record_with <- function(recs_in_pubs, rec_id, field, subject)
+{
+  record <- recs_in_pubs[recs_in_pubs$rec_number == rec_id, ]
+
+  if (is.na(record[[field]])) {
+
+    message("no ", subject, "available")
+    return(NULL)
+  }
+
+  record
 }
