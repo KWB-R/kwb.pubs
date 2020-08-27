@@ -42,10 +42,10 @@ add_projects_to_pub_index_md <- function(endnote_df,
 
   recs_in_pubs <- endnote_df[endnote_df$rec_number %in% as.numeric(rec_ids),] %>%
     dplyr::mutate(project_names = stringr::str_split(.data[[col_project]],
-                                                     ",") %>%
+                                                     ",|\r") %>%
     sapply(function(record) {
       sprintf('projects: [%s]',
-              sprintf('"%s"', paste0(record, collapse = ", ")))}))
+              sprintf('"%s"', paste0(record, collapse = '", "')))}))
 
 
   for(rec_id in recs_in_pubs$rec_number) {
