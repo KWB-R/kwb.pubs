@@ -31,8 +31,8 @@ add_projects_to_pub_index_md <- function(endnote_df,
       sprintf('projects: [%s]',
               sprintf('"%s"', paste0(record, collapse = '", "')))}))
 
-  for (rec_id in recs_in_pubs$rec_number) {
+  for (rec_id in as.integer(recs_in_pubs$rec_number)) {
 
-    handle_record_2(rec_id, recs_in_pubs, pub_dir_info)
+    handle_record_2(rec_id, recs_in_pubs, pub_dir_info, col_project)
   }
 }

@@ -22,7 +22,7 @@ add_abstracts_to_pub_index_md <- function(
 
   recs_in_pubs <- endnote_df[endnote_df$rec_number %in% pub_dir_info$rec_ids, ]
 
-  for (rec_id in recs_in_pubs$rec_number) {
+  for (rec_id in as.integer(recs_in_pubs$rec_number)) {
 
     handle_record_1(rec_id, recs_in_pubs, pub_dir_info)
   }

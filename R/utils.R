@@ -29,3 +29,20 @@ get_pub_dir_info <- function(hugo_pub_dir)
     rec_ids = rec_ids
   )
 }
+
+# get_pub_index_md_file --------------------------------------------------------
+get_pub_index_md_file <- function(pub_dir, rec_id)
+{
+  file <- paste0(pub_dir, rec_id, "/index.md")
+
+  if (file.exists(file)) {
+
+    file
+
+  } else {
+
+    message(paste(file, "is missing"))
+
+    NULL
+  }
+}
