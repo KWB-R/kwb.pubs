@@ -90,3 +90,9 @@ get_record_with <- function(recs_in_pubs, rec_id, field, subject)
 
   record
 }
+
+# last_matching ----------------------------------------------------------------
+last_matching <- function(pattern, x)
+{
+  max(grep(pattern, x))
+}

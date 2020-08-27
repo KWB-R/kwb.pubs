@@ -3,17 +3,14 @@ handle_record_1 <- function(rec_id, recs_in_pubs, pub_dir_info)
 {
   print(sprintf("rec_id: %s", rec_id))
 
-  file_and_record <- get_file_and_record(
+  if (is.null(file_and_record <- get_file_and_record(
     pub_dir = pub_dir_info$pub_dir,
     recs_in_pubs = recs_in_pubs,
     rec_id = rec_id,
     field = "abstract",
     subject = "abstract"
-  )
-
-  if (is.null(file_and_record)) {
+  )))
     return()
-  }
 
   file <- file_and_record$pub_index_md
 
@@ -40,7 +37,7 @@ handle_record_1 <- function(rec_id, recs_in_pubs, pub_dir_info)
 
   } else {
 
-    sep_idx <- max(grep(pattern = "\\+\\+\\+", dat))
+    sep_idx <- last_matching("\\+\\+\\+", dat)
     before <- 1:(sep_idx-1)
     after <-  sep_idx:length(dat)
     dat <- c(
@@ -56,17 +53,14 @@ handle_record_2 <- function(rec_id, recs_in_pubs, pub_dir_info, col_project)
 {
   print(sprintf("rec_id: %s", rec_id))
 
-  file_and_record <- get_file_and_record(
+  if (is.null(file_and_record <- get_file_and_record(
     pub_dir = pub_dir_info$pub_dir,
     recs_in_pubs = recs_in_pubs,
     rec_id = rec_id,
     field = col_project,
     subject = "project metadata"
-  )
-
-  if (is.null(file_and_record)) {
+  )))
     return()
-  }
 
   file <- file_and_record$pub_index_md
   project_names <- file_and_record$record[["project_names"]]
@@ -86,7 +80,7 @@ handle_record_2 <- function(rec_id, recs_in_pubs, pub_dir_info, col_project)
 
   } else {
 
-    sep_idx <- max(grep(pattern = "\\-\\-\\-", dat))
+    sep_idx <- last_matching("\\-\\-\\-", dat)
     before <- 1:(sep_idx-1)
     after <-  sep_idx:length(dat)
     dat <- c(dat[before], project_names, dat[after])
