@@ -11,6 +11,18 @@ check_hugo_pub_dir <- function(hugo_root_dir)
   path
 }
 
+# get_pattern ------------------------------------------------------------------
+#' @importFrom kwb.utils::selectElements
+get_pattern <- function(type)
+{
+  kwb.utils::selectElements(elements = type, list(
+    abstract_empty  = "abstract(\\s+)?=(\\s+)?\"(\\s+)?\"",
+    abstract_filled = "abtract(\\s+)?=(\\s+)?\"\\w+",
+    project_empty   = "projects(\\s+)?:(\\s+)?\"(\\s+)?\"",
+    project_filled  = "projects(\\s+)?:(\\s+)?\\[",
+  ))
+}
+
 # get_pub_dir_info -------------------------------------------------------------
 get_pub_dir_info <- function(hugo_pub_dir)
 {

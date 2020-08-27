@@ -17,8 +17,8 @@ handle_record_1 <- function(rec_id, recs_in_pubs, pub_dir_info)
 
   dat <- readLines(con = pub_index_md)
 
-  abstract_is_empty <- grepl(pattern = "abstract(\\s+)?=(\\s+)?\"(\\s+)?\"", dat)
-  abstract_is_filled <- grepl(pattern = "abtract(\\s+)?=(\\s+)?\"\\w+", dat)
+  abstract_is_empty <- grepl(get_pattern("abstract_empty"), dat)
+  abstract_is_filled <- grepl(get_pattern("abstract_filled"), dat)
 
   clean_abstract <- record$abstract %>%
     stringr::str_replace_all("\r", " ") %>%
@@ -70,8 +70,8 @@ handle_record_2 <- function(rec_id, recs_in_pubs, pub_dir_info, col_project)
 
   dat <- readLines(con = pub_index_md)
 
-  project_is_empty <- grepl(pattern = "projects(\\s+)?:(\\s+)?\"(\\s+)?\"", dat)
-  project_is_filled <- grepl(pattern = "projects(\\s+)?:(\\s+)?\\[", dat)
+  project_is_empty <- grepl(get_pattern("project_empty"), dat)
+  project_is_filled <- grepl(get_pattern("project_filled"), dat)
 
   if (sum(project_is_empty) == 1) {
 
