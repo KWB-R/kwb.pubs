@@ -2,7 +2,7 @@
 #'
 #' @param endnote_df endnote_df as retrieved by kwb.endnote::create_references_df()
 #' or kwb.endnote::clean_references_df()
-#' @param overwrite should existing "projects" be overwritten (default: FALSE)
+#' @param overwrite should existing "projects" be overwritten (default: TRUE)
 #' @param col_project name of column containing project id (default: "custom2")
 #' @param hugo_root_dir root dir of hugo-academic website (default: ".")
 #' @return add project tags to index.md
@@ -18,7 +18,7 @@
 #' add_projects_to_pub_index_md(endnote_df = refs_df_clean)
 #' }
 add_projects_to_pub_index_md <- function(endnote_df,
-                                         overwrite = FALSE,
+                                         overwrite = TRUE,
                                          col_project = "custom2",
                                          hugo_root_dir = ".") {
 
@@ -42,10 +42,10 @@ add_projects_to_pub_index_md <- function(endnote_df,
 
   recs_in_pubs <- endnote_df[endnote_df$rec_number %in% as.numeric(rec_ids),] %>%
     dplyr::mutate(project_names = stringr::str_split(.data[[col_project]],
-                                                     ",") %>%
+                                                     ",|\r") %>%
     sapply(function(record) {
       sprintf('projects: [%s]',
-              sprintf('"%s"', paste0(record, collapse = ", ")))}))
+              sprintf('"%s"', paste0(record, collapse = '", "')))}))
 
 
   for(rec_id in recs_in_pubs$rec_number) {
