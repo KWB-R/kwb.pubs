@@ -20,9 +20,9 @@ add_abstracts_to_pub_index_md <- function(
 {
   pub_dir_info <- get_pub_dir_info(check_hugo_pub_dir(hugo_root_dir))
 
-  recs_in_pubs <- endnote_df[endnote_df$rec_number %in% pub_dir_info$rec_ids, ]
+  recs_in_pubs <- filter_records(endnote_df, pub_dir_info$rec_ids)
 
-  for (rec_id in as.integer(recs_in_pubs$rec_number)) {
+  for (rec_id in get_record_number(recs_in_pubs)) {
 
     handle_record_1(rec_id, recs_in_pubs, pub_dir_info)
   }

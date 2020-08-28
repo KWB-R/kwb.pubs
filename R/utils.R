@@ -11,6 +11,12 @@ check_hugo_pub_dir <- function(hugo_root_dir)
   path
 }
 
+# filter_records ---------------------------------------------------------------
+filter_records <- function(records, rec_ids)
+{
+  records[get_record_number(records) %in% rec_ids, ]
+}
+
 # get_file_and_record ----------------------------------------------------------
 get_file_and_record <- function(pub_dir, recs_in_pubs, rec_id, field, subject)
 {
@@ -77,10 +83,18 @@ get_pub_index_md_file <- function(pub_dir, rec_id)
   file
 }
 
+# get_record_number ------------------------------------------------------------
+get_record_number <- function(records)
+{
+  as.integer(records$rec_number)
+}
+
 # get_record_with --------------------------------------------------------------
 get_record_with <- function(recs_in_pubs, rec_id, field, subject)
 {
-  record <- recs_in_pubs[recs_in_pubs$rec_number == rec_id, ]
+  stopifnot(length(rec_id) == 1L)
+
+  record <- filter_record(recs_in_pubs, rec_id)
 
   if (is.na(record[[field]])) {
 
