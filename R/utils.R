@@ -33,7 +33,7 @@ get_file_and_record <- function(pub_dir, recs_in_pubs, rec_id, field, subject)
 }
 
 # get_pattern ------------------------------------------------------------------
-#' @importFrom kwb.utils::selectElements
+#' @importFrom kwb.utils selectElements
 get_pattern <- function(type)
 {
   kwb.utils::selectElements(elements = type, list(
