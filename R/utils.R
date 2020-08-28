@@ -119,6 +119,13 @@ last_matching <- function(pattern, x)
   max(grep(pattern, x))
 }
 
+# split_at_comma_or_newline ----------------------------------------------------
+#' @importFrom stringr str_split
+split_at_comma_or_newline <- function(x)
+{
+  stringr::str_split(x, ",|\r")
+}
+
 # write_with_message_adding ----------------------------------------------------
 write_with_message_adding <- function(x, file, subject)
 {
