@@ -14,7 +14,7 @@ check_hugo_pub_dir <- function(hugo_root_dir)
 # get_file_and_record ----------------------------------------------------------
 get_file_and_record <- function(pub_dir, recs_in_pubs, rec_id, field, subject)
 {
-  pub_index_md <- get_pub_index_md_file(pub_dir_info$pub_dir)
+  pub_index_md <- get_pub_index_md_file(pub_dir)
 
   if (is.null(pub_index_md)) {
     return(NULL)
