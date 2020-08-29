@@ -35,7 +35,7 @@ replace_authors_umlauts_in_pub_index_md <- function(
 )
 {
   sapply(
-    X = DBI::dbListTables(con),
+    X = get_publication_index_md_paths(hugo_root_dir),
     FUN = replace_author_umlauts_in_pub_index_md,
     encoding = encoding
   )

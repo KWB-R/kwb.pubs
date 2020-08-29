@@ -174,54 +174,54 @@ get_reference_type <- function (endnote_db_refs, id)
 add_kwb_style_to_books <- function(endnote_db_refs)
 {
   ### books (reference_type == 1, i.e. id == 1)
-  books <- get_reference_type(endnote_db_refs, id = 1)
+  x <- get_reference_type(endnote_db_refs, id = 1)
 
-  books$publication <- sprintf(
+  x$publication <- sprintf(
     "%s%s%s%s%s",
-    add_book_pages(books$pages),
-    format_given(books$secondary_title, fmts$dot_at_start),
-    add_book_publishers(books$publisher),
-    format_given(books$place_published, fmts$dot_at_start),
-    add_doi(books$electronic_resource_number)
+    add_book_pages(x$pages),
+    format_given(x$secondary_title, fmts$dot_at_start),
+    add_book_publishers(x$publisher),
+    format_given(x$place_published, fmts$dot_at_start),
+    add_doi(x$electronic_resource_number)
   )
 
-  books
+  x
 }
 
 # add_kwb_style_to_book_sections -----------------------------------------------
 add_kwb_style_to_book_sections <- function(endnote_db_refs)
 {
   ### book_sections (reference_type == 7, i.e. id == 7)
-  book_sections <- get_reference_type(endnote_db_refs, id = 7)
+  x <- get_reference_type(endnote_db_refs, id = 7)
 
-  book_sections$publication <- sprintf(
+  x$publication <- sprintf(
     "%s%s%s%s%s%s",
-    add_book_pages(book_sections$pages),
-    add_book_editors(book_sections$secondary_author),
-    add_book_title(book_sections$secondary_title),
-    add_book_publishers(book_sections$publisher),
-    format_given(conf$place_published, fmts$dot_at_start),
-    add_doi(book_sections$electronic_resource_number)
+    add_book_pages(x$pages),
+    add_book_editors(x$secondary_author),
+    add_book_title(x$secondary_title),
+    add_book_publishers(x$publisher),
+    format_given(x$place_published, fmts$dot_at_start),
+    add_doi(x$electronic_resource_number)
   )
 
-  book_sections
+  x
 }
 
 # add_kwb_style_to_theses ------------------------------------------------------
 add_kwb_style_to_theses <- function(endnote_db_refs)
 {
   ### thesis (reference_type == 2, i.e. id == 2)
-  theses <- get_reference_type(endnote_db_refs, id = 2)
+  x <- get_reference_type(endnote_db_refs, id = 2)
 
-  theses$publication <- sprintf(
+  x$publication <- sprintf(
     "%s%s%s%s",
-    format_given(theses$type_of_work, fmts$dot_at_end),
-    format_given(theses$secondary_title, fmts$dot_at_end),
-    format_given(theses$publisher, fmts$space_at_start),
-    add_doi(theses$electronic_resource_number)
+    format_given(x$type_of_work, fmts$dot_at_end),
+    format_given(x$secondary_title, fmts$dot_at_end),
+    format_given(x$publisher, fmts$space_at_start),
+    add_doi(x$electronic_resource_number)
   )
 
-  theses
+  x
 }
 
 # add_kwb_style_to_conferences -------------------------------------------------
@@ -229,51 +229,51 @@ add_kwb_style_to_conferences <- function(endnote_db_refs)
 {
   ### conference_proceedings (reference_type == 3, i.e. id == 3)
   ### conference_paper (reference_type == 33, i.e. id == 33)
-  conf <- get_reference_type(endnote_db_refs, id = c(3, 33))
+  x <- get_reference_type(endnote_db_refs, id = c(3, 33))
 
-  conf$publication <- sprintf(
+  x$publication <- sprintf(
     "%s%s%s%s",
-    add_book_pages(conf$pages),
-    add_conference_name(conf$secondary_title),
-    format_given(conf$place_published, fmts$dot_at_start),
-    format_given(conf$date, fmts$dot_at_start),
-    add_doi(conf$electronic_resource_number)
+    add_book_pages(x$pages),
+    add_conference_name(x$secondary_title),
+    format_given(x$place_published, fmts$dot_at_start),
+    format_given(x$date, fmts$dot_at_start),
+    add_doi(x$electronic_resource_number)
   )
 
-  conf
+  x
 }
 
 # add_kwb_style_to_journals ----------------------------------------------------
 add_kwb_style_to_journals <- function(endnote_db_refs)
 {
   ### journal_papers (reference_type == 0, i.e. id == 0)
-  papers <- get_reference_type(endnote_db_refs, id = 0)
+  x <- get_reference_type(endnote_db_refs, id = 0)
 
-  papers$publication <- sprintf(
+  x$publication <- sprintf(
     "%s%s%s%s%s",
-    add_journal_name(papers$secondary_title),
-    add_volume(papers$volume),
-    add_issue(papers$number),
-    format_given(papers$pages, fmts$colon_at_start),
-    add_doi(papers$electronic_resource_number)
+    add_journal_name(x$secondary_title),
+    add_volume(x$volume),
+    add_issue(x$number),
+    format_given(x$pages, fmts$colon_at_start),
+    add_doi(x$electronic_resource_number)
   )
 
-  papers
+  x
 }
 
 # add_kwb_style_to_reports -----------------------------------------------------
 add_kwb_style_to_reports <- function(endnote_db_refs)
 {
   ### reports (reference_type == 10, i.e. id == 10)
-  reports <- get_reference_type(endnote_db_refs, id = 10)
+  x <- get_reference_type(endnote_db_refs, id = 10)
 
-  reports$publication <- sprintf(
+  x$publication <- sprintf(
     "%s%s",
-    add_publishers(reports$publisher),
-    add_doi(reports$electronic_resource_number)
+    add_publishers(x$publisher),
+    add_doi(x$electronic_resource_number)
   )
 
-  reports
+  x
 }
 
 # add_kwb_style ----------------------------------------------------------------

@@ -49,7 +49,7 @@ add_abstracts_to_pub_index_md <- function(
       pattern_sep = get_pattern("abstract_sep"),
       content = abstract,
       overwrite = overwrite,
-      subject = "abstract",
+      subject = "abstract"
     )
   }
 }

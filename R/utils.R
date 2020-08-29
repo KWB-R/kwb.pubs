@@ -132,7 +132,7 @@ get_record_with <- function(recs_in_pubs, rec_id, field, subject)
 {
   stopifnot(length(rec_id) == 1L)
 
-  record <- filter_record(recs_in_pubs, rec_id)
+  record <- filter_records(recs_in_pubs, rec_id)
 
   if (is.na(record[[field]])) {
 
