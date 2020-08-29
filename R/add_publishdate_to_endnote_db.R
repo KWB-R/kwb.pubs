@@ -23,8 +23,8 @@ add_publishdate_to_endnote_db <- function(endnote_db_refs) {
                                                 tz = "CEST") %>%
                     lubridate::with_tz(tzone = "UTC"),
                   publishDate = sprintf("%sT%sZ",
-                                        format(publish_datetime, "%Y-%m-%d"),
-                                        format(publish_datetime, "%H:%M:%S")),
+                                        format(.data$publish_datetime, "%Y-%m-%d"),
+                                        format(.data$publish_datetime, "%H:%M:%S")),
                   date_cleaned = dplyr::if_else(!is.na(lubridate::ymd(.data$date)),
                                                 as.character(lubridate::ymd(.data$date)),
                                                 dplyr::if_else(stringr::str_detect(.data$year,
