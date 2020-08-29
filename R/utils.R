@@ -137,6 +137,12 @@ last_matching <- function(pattern, x)
   max(grep(pattern, x))
 }
 
+# package_file -----------------------------------------------------------------
+package_file <- function(...)
+{
+  system.file(..., package = "kwb.pubs")
+}
+
 # space_collapsed --------------------------------------------------------------
 space_collapsed <- function(x)
 {

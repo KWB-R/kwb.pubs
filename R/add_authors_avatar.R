@@ -1,13 +1,9 @@
-
 #' @keywords internal
 #' @noRd
-
-config_authors_default <- function() {
-
-  system.file("config/authors.txt", package = "kwb.pubs")
-
+config_authors_default <- function()
+{
+  package_file("config/authors.txt")
 }
-
 
 #' Get Authors Config
 #'
