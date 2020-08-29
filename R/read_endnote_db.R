@@ -7,15 +7,14 @@
 #' @importFrom DBI dbConnect dbListTables dbReadTable dbDisconnect
 #' @importFrom RSQLite SQLite
 #' @importFrom stats setNames
-read_endnote_db <- function(path) {
-
+read_endnote_db <- function(path)
+{
   con <- DBI::dbConnect(RSQLite::SQLite(), path)
+  on.exit(DBI::dbDisconnect(con))
 
-  table_names <- DBI::dbListTables(con)
-
-  contents <- lapply(stats::setNames(nm = table_names), DBI::dbReadTable, con = con)
-
-  DBI::dbDisconnect(con)
-
-  contents
+  lapply(
+    X = stats::setNames(nm = DBI::dbListTables(con)),
+    FUN = DBI::dbReadTable,
+    con = con
+  )
 }
