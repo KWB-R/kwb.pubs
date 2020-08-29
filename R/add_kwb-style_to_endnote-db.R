@@ -45,7 +45,7 @@ add_conference_name <- function(string) {
 
 # abbreviate_author ------------------------------------------------------------
 abbreviate_author <- function(x) {
-  last_first <- strsplit(x, "\\s*,\\s*")[[1L]]
+  last_first <- split_one(x, "\\s*,\\s*")
 
   if (length(last_first) > 1L) {
     last_first[2L] <- shorten_first_name(last_first[2L])
@@ -56,12 +56,12 @@ abbreviate_author <- function(x) {
 
 # shorten_first_name -----------------------------------------------------------
 shorten_first_name <- function(x) {
-  space_collapsed(sapply(strsplit(x, "\\s+")[[1]], shorten_dashed_name))
+  space_collapsed(apply_to_split(x, "\\s+", shorten_dashed_name))
 }
 
 # shorten_dashed_name ----------------------------------------------------------
 shorten_dashed_name <- function(x) {
-  dash_collapsed(sapply(strsplit(x, "-")[[1]], dot_after_first_char))
+  dash_collapsed(apply_to_split(x, "-", dot_after_first_char))
 }
 
 # dot_after_first_char ---------------------------------------------------------

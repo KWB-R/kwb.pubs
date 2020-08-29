@@ -1,3 +1,9 @@
+# apply_to_split ---------------------------------------------------------------
+apply_to_split <- function(x, pattern, FUN)
+{
+  sapply(split_one(x, pattern), FUN)
+}
+
 # check_hugo_pub_dir -----------------------------------------------------------
 check_hugo_pub_dir <- function(hugo_root_dir)
 {
@@ -142,6 +148,14 @@ space_collapsed <- function(x)
 split_at_comma_or_newline <- function(x)
 {
   stringr::str_split(x, ",|\r")
+}
+
+# split_one --------------------------------------------------------------------
+split_one <- function(x, pattern)
+{
+  stopifnot(length(x) == 1L)
+
+  strsplit(x, pattern)[[1L]]
 }
 
 # write_with_message_adding ----------------------------------------------------
