@@ -1,12 +1,12 @@
 fmts <- list(
   space_at_start = " %s",
-  cursive = "*%s*",
+  italics = "*%s*",
   dot_at_end = " %s.",
   dot_at_start = ". %s",
-  semicolon_at_start = ", %s",
+  comma_at_start = ", %s",
   in_at_start = " *In:* %s",
-  curvy_brackets = " (%s)",
-  doubledot_at_start = ": %s",
+  in_parentheses = " (%s)",
+  colon_at_start = ": %s",
   p_at_start = " p %s"
 )
 
@@ -24,7 +24,7 @@ add_book_pages <- function(string) {
 
 add_journal_name <- function(string) {
   string %>%
-    format_given(fmts$cursive) %>%
+    format_given(fmts$italics) %>%
     format_given(fmts$space_at_start)
 }
 
@@ -35,7 +35,7 @@ add_volume <- function(string) {
 
 add_issue <- function(string) {
   string %>%
-    format_given(fmts$curvy_brackets)
+    format_given(fmts$in_parentheses)
 }
 
 add_conference_name <- function(string) {
@@ -110,12 +110,12 @@ add_book_editors <- function(string) {
 
 add_book_title <- function(string) {
   string %>%
-    format_given(fmts$semicolon_at_start)
+    format_given(fmts$comma_at_start)
 }
 
 add_book_series <- function(string) {
   string %>%
-    format_given(fmts$semicolon_at_start)
+    format_given(fmts$comma_at_start)
 }
 
 add_doi <- function(string) {
@@ -220,7 +220,7 @@ add_kwb_style_to_journals <- function(endnote_db_refs) {
     add_journal_name(papers$secondary_title),
     add_volume(papers$volume),
     add_issue(papers$number),
-    format_given(papers$pages, fmts$doubledot_at_start),
+    format_given(papers$pages, fmts$colon_at_start),
     add_doi(papers$electronic_resource_number)
   )
 
