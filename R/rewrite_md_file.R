@@ -22,5 +22,7 @@ rewrite_md_file <- function(
     x <- insert_after(x, pattern_sep, content)
   }
 
-  write_with_message_adding(x, file, subject = subject)
+  message(paste("Adding", subject))
+
+  writeLines(x, file, useBytes = TRUE)
 }

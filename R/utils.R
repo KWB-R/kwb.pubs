@@ -181,11 +181,3 @@ trimmed_title <- function(x)
 {
   stringr::str_to_title(stringr::str_trim(x))
 }
-
-# write_with_message_adding ----------------------------------------------------
-write_with_message_adding <- function(x, file, subject)
-{
-  message(paste("Adding", subject))
-
-  writeLines(x, file, useBytes = TRUE)
-}
