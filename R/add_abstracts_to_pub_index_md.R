@@ -24,6 +24,30 @@ add_abstracts_to_pub_index_md <- function(
 
   for (rec_id in get_record_number(recs_in_pubs)) {
 
-    handle_record_1(rec_id, recs_in_pubs, pub_dir_info)
+    print(sprintf("rec_id: %s", rec_id))
+
+    if (is.null(file_and_record <- get_file_and_record(
+      pub_dir = pub_dir_info$pub_dir,
+      recs_in_pubs = recs_in_pubs,
+      rec_id = rec_id,
+      field = "abstract",
+      subject = "abstract"
+    )))
+      return()
+
+    abstract <- file_and_record$record$abstract %>%
+      stringr::str_replace_all("\r", " ") %>%
+      stringr::str_replace_all("\"", "\\\\\"") %>%
+      sprintf(fmt = 'abstract = "%s"')
+
+    rewrite_md_file(
+      file = file_and_record$pub_index_md,
+      pattern_empty = get_pattern("abstract_empty"),
+      pattern_filled = get_pattern("abstract_filled"),
+      pattern_sep = get_pattern("abstract_sep"),
+      content = abstract,
+      overwrite = overwrite,
+      subject = "abstract",
+    )
   }
 }

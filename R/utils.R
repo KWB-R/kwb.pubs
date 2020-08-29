@@ -73,8 +73,10 @@ get_pattern <- function(type)
   kwb.utils::selectElements(elements = type, list(
     abstract_empty  = "abstract(\\s+)?=(\\s+)?\"(\\s+)?\"",
     abstract_filled = "abstract(\\s+)?=(\\s+)?\"\\w+",
+    abstract_sep    = "\\+\\+\\+",
     project_empty   = "projects(\\s+)?:(\\s+)?\"(\\s+)?\"",
     project_filled  = "projects(\\s+)?:(\\s+)?\\[",
+    project_sep     = "\\-\\-\\-"
   ))
 }
 
