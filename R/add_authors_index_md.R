@@ -91,7 +91,7 @@ create_author_interests <- function(author_metadata)
   interests <- paste0("  ", interests, collapse = ",\n")
   interests <- unlist(stringr::str_split(interests, "\n"))
 
-  c('', 'interests = [', interests, ']', '')
+  enclose_in_empty_strings('interests = [', interests, ']')
 }
 
 #' Create Author User Groups
@@ -110,7 +110,7 @@ create_author_user_groups <- function(author_metadata)
   user_groups <- unlist(stringr::str_split(value, ",(\\s+)?"))
   user_groups <- kwb.utils::stringList(user_groups, qchar = '"')
 
-  c('', sprintf('user_groups = [%s]', user_groups), '')
+  enclose_in_empty_strings(sprintf('user_groups = [%s]', user_groups))
 }
 
 #' Create Author Username
@@ -126,7 +126,7 @@ create_username <- function(author_metadata)
   if (kwb.utils::isNaOrEmpty(value))
     return("")
 
-  c('', sprintf('authors = ["%s"]', value), '')
+  enclose_in_empty_strings(sprintf('authors = ["%s"]', value))
 }
 
 #' @keywords internal

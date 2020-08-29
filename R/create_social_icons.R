@@ -1,13 +1,11 @@
 # create_social_icon -----------------------------------------------------------
 create_social_icon <- function(icon, icon_pack, link)
 {
-  c(
-    '',
+  enclose_in_empty_strings(
     '[[social]]',
     sprintf('  icon = "%s"', icon),
     sprintf('  icon_pack = "%s"', icon_pack),
-    sprintf('  link = "%s"', link),
-    ''
+    sprintf('  link = "%s"', link)
   )
 }
 

@@ -33,6 +33,12 @@ dash_collapsed <- function(x)
   paste(x, collapse = "-")
 }
 
+# enclose_in_empty_strings -----------------------------------------------------
+enclose_in_empty_strings <- function(...)
+{
+  c('', ..., '')
+}
+
 # filter_records ---------------------------------------------------------------
 filter_records <- function(records, rec_ids)
 {
