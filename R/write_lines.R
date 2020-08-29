@@ -8,18 +8,25 @@
 #' @return writes file with "fileEncoding"
 #' @export
 
-write_lines <- function (text, file, fileEncoding = "", ...) {
+write_lines <- function (text, file, fileEncoding = "", ...)
+{
   if (is.character(file)) {
+
     con <- if (nzchar(fileEncoding)) {
+
       file(file, "wt", encoding = fileEncoding)
-    }
-    else {
+
+    } else {
+
       file(file, "wt")
     }
+
     on.exit(close(con))
-  }
-  else {
+
+  } else {
+
     con <- file
   }
+
   writeLines(text, con, ...)
 }
