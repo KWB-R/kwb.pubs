@@ -35,14 +35,16 @@ add_projects_to_pub_index_md <- function(
 
     print(sprintf("rec_id: %s", rec_id))
 
-    if (is.null(file_and_record <- get_file_and_record(
+    file_and_record <- get_file_and_record(
       pub_dir = pub_dir_info$pub_dir,
       recs_in_pubs = recs_in_pubs,
       rec_id = rec_id,
       field = col_project,
       subject = "project metadata"
-    )))
-      return()
+    )
+
+    if (is.null(file_and_record))
+      next
 
     rewrite_md_file(
       file = file_and_record$pub_index_md,

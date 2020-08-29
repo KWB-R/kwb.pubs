@@ -26,14 +26,16 @@ add_abstracts_to_pub_index_md <- function(
 
     print(sprintf("rec_id: %s", rec_id))
 
-    if (is.null(file_and_record <- get_file_and_record(
+    file_and_record <- get_file_and_record(
       pub_dir = pub_dir_info$pub_dir,
       recs_in_pubs = recs_in_pubs,
       rec_id = rec_id,
       field = "abstract",
       subject = "abstract"
-    )))
-      return()
+    )
+
+    if (is.null(file_and_record))
+      next
 
     abstract <- file_and_record$record$abstract %>%
       stringr::str_replace_all("\r", " ") %>%
