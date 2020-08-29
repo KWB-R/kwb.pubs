@@ -4,15 +4,12 @@
 #' (as retrieved by kwb.endnote::clean_references_df()$custom2)
 #' @export
 #' @importFrom stringr str_split str_sort
-get_unique_project_names <- function(project_names) {
-
-
+get_unique_project_names <- function(project_names)
+{
   stringr::str_split(project_names, ",") %>%
     unlist() %>%
     unique() %>%
     stringr::str_sort(na_last = NA)
-
-
 }
 
 #' Create Projects
@@ -32,24 +29,17 @@ get_unique_project_names <- function(project_names) {
 #' endnote_df <- kwb.endnote::clean_references_df()
 #' create_projects(project_names = endnote_df$custom2)
 #' }
-create_projects <- function(project_names,
-                            project_dir = "project",
-                            hugo_root_dir = ".") {
-
-
-  unique_project_names <- get_unique_project_names(project_names)
-
-  withr::with_dir(hugo_root_dir,
-                  code = {
-                    sapply(unique_project_names,
-                           function(project_name) {
-                             message(sprintf("Creating project '%s' in hugo_dir = %s",
-                                             project_name,
-                                             fs::path_abs(hugo_root_dir)))
-                             cmd_proj <- sprintf("new  --kind project %s/%s",
-                                                 project_dir,
-                                                 project_name)
-                             blogdown::hugo_cmd(cmd_proj)})})
+create_projects <- function(
+  project_names, project_dir = "project", hugo_root_dir = "."
+)
+{
+  withr::with_dir(hugo_root_dir, code = {
+    sapply(get_unique_project_names(project_names), function(name) {
+      message(sprintf(
+        "Creating project '%s' in hugo_dir = %s",
+        name, fs::path_abs(hugo_root_dir)
+      ))
+      blogdown::hugo_cmd(sprintf("new --kind project %s/%s", project_dir, name))
+    })
+  })
 }
-
-
