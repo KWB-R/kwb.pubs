@@ -45,6 +45,14 @@ format_given <- function(fmt, x)
   ifelse(x == "", "", sprintf(fmt, stringr::str_trim(x)))
 }
 
+# format_tag -------------------------------------------------------------------
+format_tag <- function(x)
+{
+  x %>%
+    stringr::str_replace_all("\r", " ") %>%
+    stringr::str_replace_all("\"", "\\\\\"")
+}
+
 # get_file_and_record ----------------------------------------------------------
 get_file_and_record <- function(pub_dir, recs_in_pubs, rec_id, field, subject)
 {
