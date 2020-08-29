@@ -23,7 +23,7 @@ clean_lower <- function(x)
   x %>%
     stringr::str_trim() %>%
     stringr::str_to_lower() %>%
-    stringr::str_replace_all("\\s+", "-") %>%
+    space_to_single_dash() %>%
     replace_umlauts()
 }
 
@@ -46,6 +46,7 @@ format_given <- function(fmt, x)
 }
 
 # format_tag -------------------------------------------------------------------
+#' @importFrom stringr str_replace_all
 format_tag <- function(x)
 {
   x %>%
@@ -167,6 +168,20 @@ package_file <- function(...)
 space_collapsed <- function(x)
 {
   paste(x, collapse = " ")
+}
+
+# space_to_single_dash ---------------------------------------------------------
+#' @importFrom stringr str_replace_all
+space_to_single_dash <- function(x)
+{
+  stringr::str_replace_all(x, "\\s+", "-")
+}
+
+# space_to_single_space --------------------------------------------------------
+#' @importFrom stringr str_replace_all
+space_to_single_space <- function(x)
+{
+  stringr::str_replace_all(x, "\\s+", " ")
 }
 
 # split_at_comma_or_newline ----------------------------------------------------

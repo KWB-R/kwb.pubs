@@ -68,7 +68,7 @@ construct_fullname <- function(firstname, lastname)
 
 #' @keywords internal
 #' @noRd
-#' @importFrom stringr str_split str_to_lower  str_trim str_sub str_replace_all
+#' @importFrom stringr str_split str_to_lower  str_trim str_sub
 #' @importFrom magrittr %>%
 construct_dirname <- function(firstname, lastname)
 {
@@ -85,7 +85,7 @@ construct_dirname <- function(firstname, lastname)
 
   dir_lastname <- lastname %>%
     stringr::str_trim() %>%
-    stringr::str_replace_all("\\s+", "-") %>%
+    space_to_single_dash() %>%
     stringr::str_to_lower() %>%
     replace_umlauts()
 
@@ -94,7 +94,7 @@ construct_dirname <- function(firstname, lastname)
 
 #' @keywords internal
 #' @noRd
-#' @importFrom stringr str_split str_to_lower str_to_title str_trim str_sub str_replace_all
+#' @importFrom stringr str_split str_to_lower str_to_title str_trim str_sub
 #' @importFrom magrittr %>%
 construct_authorname <- function (firstname, lastname)
 {
@@ -108,7 +108,7 @@ construct_authorname <- function (firstname, lastname)
   }))
 
   lastname <- lastname %>%
-    stringr::str_replace_all("\\s+", " ") %>%
+    space_to_single_space() %>%
     trimmed_title()
 
   sprintf("%s, %s", lastname, firstname)

@@ -6,7 +6,7 @@
 #' @param hugo_root_dir root dir of hugo-academic website (default: ".")
 #' @return add abstracts to index.md
 #' @export
-#' @importFrom stringr str_replace str_extract str_replace_all
+#' @importFrom stringr str_replace str_extract
 #' @importFrom fs dir_ls
 #' @examples
 #' \dontrun{
@@ -38,8 +38,7 @@ add_abstracts_to_pub_index_md <- function(
       next
 
     abstract <- file_and_record$record$abstract %>%
-      stringr::str_replace_all("\r", " ") %>%
-      stringr::str_replace_all("\"", "\\\\\"") %>%
+      format_tag() %>%
       sprintf(fmt = 'abstract = "%s"')
 
     rewrite_md_file(
