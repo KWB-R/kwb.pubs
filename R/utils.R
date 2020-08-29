@@ -17,6 +17,16 @@ check_hugo_pub_dir <- function(hugo_root_dir)
   path
 }
 
+# clean_lower ------------------------------------------------------------------
+clean_lower <- function(x)
+{
+  x %>%
+    stringr::str_trim() %>%
+    stringr::str_to_lower() %>%
+    stringr::str_replace_all("\\s+", "-") %>%
+    replace_umlauts()
+}
+
 # dash_collapsed ---------------------------------------------------------------
 dash_collapsed <- function(x)
 {

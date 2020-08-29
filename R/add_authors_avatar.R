@@ -11,67 +11,51 @@ config_authors_default <- function()
 #' @return imports authors config as data.frame
 #' @importFrom utils read.delim
 #' @export
-
-get_authors_config <- function(path = config_authors_default()) {
-
-utils::read.delim(file = file(path, encoding = "UCS-2LE"),
-                  stringsAsFactors = FALSE)
-
-}
-
-
-#' @keywords internal
-#' @noRd
-#' @importFrom stringr str_trim str_to_lower str_to_lower
-
-construct_email <- function(firstname, lastname) {
-  sprintf("%s.%s@kompetenz-wasser.de",
-          firstname %>%
-            stringr::str_trim() %>%
-            stringr::str_to_lower() %>%
-            stringr::str_replace_all("\\s+", "-") %>%
-            replace_umlauts(),
-          lastname %>%
-            stringr::str_trim() %>%
-            stringr::str_replace_all("\\s+", "-") %>%
-            stringr::str_to_lower() %>%
-            replace_umlauts())
+get_authors_config <- function(path = config_authors_default())
+{
+  utils::read.delim(
+    file = file(path, encoding = "UCS-2LE"),
+    stringsAsFactors = FALSE
+  )
 }
 
 #' @keywords internal
 #' @noRd
 #' @importFrom stringr str_trim str_to_lower str_to_lower
+construct_email <- function(firstname, lastname)
+{
+  sprintf(
+    "%s.%s@kompetenz-wasser.de",
+    clean_lower(firstname),
+    clean_lower(lastname)
+  )
+}
 
-construct_phonenumbers <- function(phonenumbers) {
+#' @keywords internal
+#' @noRd
+#' @importFrom stringr str_trim str_to_lower str_to_lower
+construct_phonenumbers <- function(phonenumbers)
+{
+  unlist(lapply(phonenumbers, function(x) {
 
-  unlist(lapply(phonenumbers, function(phonenumber) {
-  phonenumber <- as.character(phonenumber)
+    x <- as.character(x)
 
-  is_kwb_number <- phonenumber %>%
-    stringr::str_trim() %>%
-    stringr::str_length() == 3
+    if (is.na(x))
+      return(NA_character_)
 
-  phonenumber <- if(is.na(phonenumber)) {
-    NA_character_
-  } else if(is_kwb_number) {
-    sprintf("+493053653%s", phonenumber)
-  } else {
-    has_countrycode <- stringr::str_detect(phonenumber,
-                                           pattern = "\\+49|0049")
-    if(has_countrycode) {
-      phonenumber
-    } else {
-      has_berlin_code <- stringr::str_detect(phonenumber, pattern = "^030")
+    if (is_kwb_number <- nchar(stringr::str_trim(x)) == 3L)
+      return(sprintf("+493053653%s", x))
 
-      if(has_berlin_code) {
-      sprintf("+49%s",
-              stringr::str_replace(phonenumber,
-                                   pattern = "^030",
-                                   replacement = "30"))
-      } else {
-      sprintf("+4930%s", phonenumber)
-      }
-    }}}))
+    if (has_countrycode <- stringr::str_detect(x, pattern = "\\+49|0049"))
+      return(x)
+
+    if (has_berlin_code <- stringr::str_detect(x, pattern = "^030"))
+      return(sprintf(
+        "+49%s", stringr::str_replace(x, pattern = "^030", replacement = "30")
+      ))
+
+    sprintf("+4930%s", x)
+  }))
 }
 
 #' @keywords internal
