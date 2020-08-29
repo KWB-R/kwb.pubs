@@ -1,3 +1,4 @@
+# fmts -------------------------------------------------------------------------
 fmts <- list(
   space_at_start = " %s",
   italics = "*%s*",
@@ -10,41 +11,51 @@ fmts <- list(
   p_at_start = " p %s"
 )
 
+# add_pages --------------------------------------------------------------------
 add_pages <- function(string) {
-  ifelse(string != "",
-         stringr::str_extract(string, "[0-9]{1,5}"),
-         "")
+  ifelse(
+    string != "",
+    stringr::str_extract(string, "[0-9]{1,5}"),
+    ""
+  )
 }
 
+# add_book_pages ---------------------------------------------------------------
 add_book_pages <- function(string) {
   string %>%
     add_pages() %>%
     format_given(fmts$p_at_start)
 }
 
+# add_journal_name -------------------------------------------------------------
 add_journal_name <- function(string) {
   string %>%
     format_given(fmts$italics) %>%
     format_given(fmts$space_at_start)
 }
 
+# add_volume -------------------------------------------------------------------
 add_volume <- function(string) {
   string %>%
     format_given(fmts$space_at_start)
 }
 
+# add_issue --------------------------------------------------------------------
 add_issue <- function(string) {
   string %>%
     format_given(fmts$in_parentheses)
 }
 
-add_conference_name <- function(string) {
+# add_conference_name ----------------------------------------------------------
+add_conference_name <- function(string)
+{
   string %>%
     format_given(fmts$in_at_start)
 }
 
 # abbreviate_author ------------------------------------------------------------
-abbreviate_author <- function(x) {
+abbreviate_author <- function(x)
+{
   last_first <- split_one(x, "\\s*,\\s*")
 
   if (length(last_first) > 1L) {
@@ -55,23 +66,26 @@ abbreviate_author <- function(x) {
 }
 
 # shorten_first_name -----------------------------------------------------------
-shorten_first_name <- function(x) {
+shorten_first_name <- function(x)
+{
   space_collapsed(apply_to_split(x, "\\s+", shorten_dashed_name))
 }
 
 # shorten_dashed_name ----------------------------------------------------------
-shorten_dashed_name <- function(x) {
+shorten_dashed_name <- function(x)
+{
   dash_collapsed(apply_to_split(x, "-", dot_after_first_char))
 }
 
 # dot_after_first_char ---------------------------------------------------------
-dot_after_first_char <- function(x) {
+dot_after_first_char <- function(x)
+{
   paste0(substr(x, 1L, 1L), ".")
 }
 
-
-clean_editors <- function(string) {
-
+# clean_editors ----------------------------------------------------------------
+clean_editors <- function(string)
+{
   abbreviated <- lapply(strsplit(string, "\r"), function(x) {
     sapply(x, abbreviate_author, USE.NAMES = FALSE)
   }) %>%
@@ -79,70 +93,86 @@ clean_editors <- function(string) {
 
   sapply(abbreviated, function(eds) {
 
-    editors <- stringr::str_split(string = eds,
-                                  pattern = "\r")[[1]] %>%
+    editors <- split_one(eds, "\r") %>%
       stringr::str_remove(",") %>%
       stringr::str_trim()
 
     n <- length(editors)
 
-    eds_clean <- ""
+    if (n == 0L)
+      return("")
 
-    if (n == 1) {
-      sprintf("%s %s", editors, "[ed.]")
-    } else if (n > 1) {
-      sprintf("%s & %s %s",
-              stringr::str_c(editors[seq_len(n-1)], collapse = ", "),
-              editors[n],
-              "[eds.]")
-    } else {
-      ""
-    }
+    if (n == 1L)
+      return(sprintf("%s %s", editors, "[ed.]"))
+
+    # n > 1L
+    sprintf(
+      "%s & %s %s",
+      stringr::str_c(editors[seq_len(n - 1L)], collapse = ", "),
+      editors[n],
+      "[eds.]"
+    )
   })
-
 }
 
-add_book_editors <- function(string) {
+# add_book_editors -------------------------------------------------------------
+add_book_editors <- function(string)
+{
   string %>%
     clean_editors() %>%
     format_given(fmts$in_at_start)
 }
 
-add_book_title <- function(string) {
+# add_book_title ---------------------------------------------------------------
+add_book_title <- function(string)
+{
   string %>%
     format_given(fmts$comma_at_start)
 }
 
-add_book_series <- function(string) {
+# add_book_series --------------------------------------------------------------
+add_book_series <- function(string)
+{
   string %>%
     format_given(fmts$comma_at_start)
 }
 
-add_doi <- function(string) {
+# add_doi ----------------------------------------------------------------------
+add_doi <- function(string)
+{
   s <- stringr::str_trim(string)
   ifelse(s != "", sprintf(" [%s](https://doi.org/%s)", s, s), "")
 }
 
-replace_carriage_return_with_semicolon_and_space <- function(string) {
+# replace_carriage_return_with_semicolon_and_space -----------------------------
+replace_carriage_return_with_semicolon_and_space <- function(string)
+{
   gsub("\r", ", ", string)
 }
 
-add_publishers <- function(string) {
+# add_publishers ---------------------------------------------------------------
+add_publishers <- function(string)
+{
   replace_carriage_return_with_semicolon_and_space(string)
 }
 
-add_book_publishers <- function(string) {
+# add_book_publishers ----------------------------------------------------------
+add_book_publishers <- function(string)
+{
   add_publishers(string) %>%
     format_given(fmts$dot_at_start)
 }
 
-get_reference_type <- function (endnote_db_refs, id) {
+# get_reference_type -----------------------------------------------------------
+get_reference_type <- function (endnote_db_refs, id)
+{
   is_sel_ref_type <- endnote_db_refs$reference_type %in% id
-  endnote_db_refs[is_sel_ref_type,]
+  endnote_db_refs[is_sel_ref_type, ]
 }
 
-add_kwb_style_to_books <- function(endnote_db_refs) {
-
+# add_kwb_style_to_books -------------------------------------------------------
+add_kwb_style_to_books <- function(endnote_db_refs)
+{
   ### books (reference_type == 1, i.e. id == 1)
   books <- get_reference_type(endnote_db_refs, id = 1)
 
@@ -158,8 +188,9 @@ add_kwb_style_to_books <- function(endnote_db_refs) {
   books
 }
 
-add_kwb_style_to_book_sections <- function(endnote_db_refs) {
-
+# add_kwb_style_to_book_sections -----------------------------------------------
+add_kwb_style_to_book_sections <- function(endnote_db_refs)
+{
   ### book_sections (reference_type == 7, i.e. id == 7)
   book_sections <- get_reference_type(endnote_db_refs, id = 7)
 
@@ -176,8 +207,9 @@ add_kwb_style_to_book_sections <- function(endnote_db_refs) {
   book_sections
 }
 
-add_kwb_style_to_theses <- function(endnote_db_refs) {
-
+# add_kwb_style_to_theses ------------------------------------------------------
+add_kwb_style_to_theses <- function(endnote_db_refs)
+{
   ### thesis (reference_type == 2, i.e. id == 2)
   theses <- get_reference_type(endnote_db_refs, id = 2)
 
@@ -192,11 +224,12 @@ add_kwb_style_to_theses <- function(endnote_db_refs) {
   theses
 }
 
-add_kwb_style_to_conferences <- function(endnote_db_refs) {
-
+# add_kwb_style_to_conferences -------------------------------------------------
+add_kwb_style_to_conferences <- function(endnote_db_refs)
+{
   ### conference_proceedings (reference_type == 3, i.e. id == 3)
   ### conference_paper (reference_type == 33, i.e. id == 33)
-  conf <- get_reference_type(endnote_db_refs, id = c(3,33))
+  conf <- get_reference_type(endnote_db_refs, id = c(3, 33))
 
   conf$publication <- sprintf(
     "%s%s%s%s",
@@ -210,8 +243,9 @@ add_kwb_style_to_conferences <- function(endnote_db_refs) {
   conf
 }
 
-add_kwb_style_to_journals <- function(endnote_db_refs) {
-
+# add_kwb_style_to_journals ----------------------------------------------------
+add_kwb_style_to_journals <- function(endnote_db_refs)
+{
   ### journal_papers (reference_type == 0, i.e. id == 0)
   papers <- get_reference_type(endnote_db_refs, id = 0)
 
@@ -227,8 +261,9 @@ add_kwb_style_to_journals <- function(endnote_db_refs) {
   papers
 }
 
-add_kwb_style_to_reports <- function(endnote_db_refs) {
-
+# add_kwb_style_to_reports -----------------------------------------------------
+add_kwb_style_to_reports <- function(endnote_db_refs)
+{
   ### reports (reference_type == 10, i.e. id == 10)
   reports <- get_reference_type(endnote_db_refs, id = 10)
 
@@ -240,6 +275,8 @@ add_kwb_style_to_reports <- function(endnote_db_refs) {
 
   reports
 }
+
+# add_kwb_style ----------------------------------------------------------------
 
 #' add_kwb_style
 #'
@@ -271,6 +308,7 @@ add_kwb_style <- function(endnote_db_refs) {
   dplyr::bind_rows(kwb_style_list, .id = "reference_type_name")
 }
 
+# Test -------------------------------------------------------------------------
 if (FALSE)
 {
   endnote_db <- read_endnote_db(path = "../../dms/2020-07-08/KWB-documents_20191205.Data/sdb/sdb.eni")
