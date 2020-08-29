@@ -78,6 +78,7 @@ create_author_education <- function(author_metadata) {
 #'
 #' @param author_metadata one record as retrieved by add_authors_metadata()
 #' @return txt with interests
+#' @importFrom kwb.utils isNaOrEmpty
 #' @export
 create_author_interests <- function(author_metadata)
 {
@@ -97,6 +98,7 @@ create_author_interests <- function(author_metadata)
 #'
 #' @param author_metadata one record as retrieved by add_authors_metadata()
 #' @return txt with user_groups
+#' @importFrom kwb.utils isNaOrEmpty
 #' @export
 create_author_user_groups <- function(author_metadata)
 {
@@ -115,6 +117,7 @@ create_author_user_groups <- function(author_metadata)
 #'
 #' @param author_metadata one record as retrieved by add_authors_metadata()
 #' @return txt with author username
+#' @importFrom kwb.utils isNaOrEmpty
 #' @export
 create_username <- function(author_metadata)
 {
@@ -152,7 +155,7 @@ add_complex_tag <- function(author_md, tag_pattern = "<social>", data)
 #' @return "_index.md" for author as text
 #' @export
 #' @importFrom stringr str_detect str_remove_all
-
+#' @importFrom kwb.utils isNaOrEmpty
 prepare_author_index_md <- function(
   author_metadata,
   template_author_md = template_author_md_default()

@@ -33,7 +33,7 @@ construct_email <- function(firstname, lastname)
 
 #' @keywords internal
 #' @noRd
-#' @importFrom stringr str_trim str_to_lower str_to_lower
+#' @importFrom stringr str_trim
 construct_phonenumbers <- function(phonenumbers)
 {
   unlist(lapply(phonenumbers, function(x) {
@@ -60,7 +60,6 @@ construct_phonenumbers <- function(phonenumbers)
 
 #' @keywords internal
 #' @noRd
-#' @importFrom stringr str_to_lower str_to_lower
 construct_fullname <- function(firstname, lastname)
 {
   paste(trimmed_title(firstname), trimmed_title(lastname))
@@ -68,7 +67,7 @@ construct_fullname <- function(firstname, lastname)
 
 #' @keywords internal
 #' @noRd
-#' @importFrom stringr str_split str_to_lower  str_trim str_sub
+#' @importFrom stringr str_to_lower str_trim str_sub
 #' @importFrom magrittr %>%
 construct_dirname <- function(firstname, lastname)
 {
@@ -94,7 +93,7 @@ construct_dirname <- function(firstname, lastname)
 
 #' @keywords internal
 #' @noRd
-#' @importFrom stringr str_split str_to_lower str_to_title str_trim str_sub
+#' @importFrom stringr str_trim str_sub
 #' @importFrom magrittr %>%
 construct_authorname <- function (firstname, lastname)
 {
@@ -118,6 +117,7 @@ construct_authorname <- function (firstname, lastname)
 #'
 #' @param authors_config default: get_authors_config()
 #' @return add authors metadata (email, dirname)
+#' @importFrom kwb.utils setColumns
 #' @export
 add_authors_metadata <- function(authors_config = get_authors_config())
 {
@@ -180,7 +180,6 @@ create_author_dir <- function(author_dirname, hugo_root_dir = ".")
 #' @return add avatar for author
 #' @export
 #' @importFrom magick image_read image_crop image_write geometry_area
-#' @importFrom fs dir_exists dir_create
 add_author_avatar <- function(
   author_metadata,
   overwrite = FALSE,

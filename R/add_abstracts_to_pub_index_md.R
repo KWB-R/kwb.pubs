@@ -6,8 +6,6 @@
 #' @param hugo_root_dir root dir of hugo-academic website (default: ".")
 #' @return add abstracts to index.md
 #' @export
-#' @importFrom stringr str_replace str_extract
-#' @importFrom fs dir_ls
 #' @examples
 #' \dontrun{
 #' endnote_list <- kwb.endnote::create_endnote_list()
