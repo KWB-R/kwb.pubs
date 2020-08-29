@@ -174,6 +174,12 @@ split_one <- function(x, pattern)
   strsplit(x, pattern)[[1L]]
 }
 
+# trimmed_title ----------------------------------------------------------------
+trimmed_title <- function(x)
+{
+  stringr::str_to_title(stringr::str_trim(x))
+}
+
 # write_with_message_adding ----------------------------------------------------
 write_with_message_adding <- function(x, file, subject)
 {

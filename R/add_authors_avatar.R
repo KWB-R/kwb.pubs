@@ -44,54 +44,44 @@ construct_phonenumbers <- function(phonenumbers)
       return(NA_character_)
 
     if (is_kwb_number <- nchar(stringr::str_trim(x)) == 3L)
-      return(sprintf("+493053653%s", x))
+      return(paste0("+493053653", x))
 
     if (has_countrycode <- stringr::str_detect(x, pattern = "\\+49|0049"))
       return(x)
 
     if (has_berlin_code <- stringr::str_detect(x, pattern = "^030"))
-      return(sprintf(
-        "+49%s", stringr::str_replace(x, pattern = "^030", replacement = "30")
+      return(paste0(
+        "+49", stringr::str_replace(x, pattern = "^030", replacement = "30")
       ))
 
-    sprintf("+4930%s", x)
+    paste0("+4930", x)
   }))
 }
 
 #' @keywords internal
 #' @noRd
 #' @importFrom stringr str_to_lower str_to_lower
-
-construct_fullname <- function(firstname, lastname) {
-  sprintf("%s %s",
-          firstname %>%
-            stringr::str_trim() %>%
-            stringr::str_to_title(),
-          lastname %>%
-            stringr::str_trim() %>%
-            stringr::str_to_title())
+construct_fullname <- function(firstname, lastname)
+{
+  paste(trimmed_title(firstname), trimmed_title(lastname))
 }
 
 #' @keywords internal
 #' @noRd
 #' @importFrom stringr str_split str_to_lower  str_trim str_sub str_replace_all
 #' @importFrom magrittr %>%
-
-construct_dirname <- function(firstname,
-                              lastname) {
-
-  dir_firstname <- unlist(lapply(seq_along(firstname), function(idx) {
-    tmp <- firstname[idx] %>%
-    stringr::str_trim() %>%
-    stringr::str_split("-|\\s+") %>%
-    unlist() %>%
-    stringr::str_sub(1, 1) %>%
-    stringr::str_to_lower() %>%
-    replace_umlauts()
-
-    paste0(sprintf("%s.", tmp), collapse = "-")
-}))
-
+construct_dirname <- function(firstname, lastname)
+{
+  # dir_firstname <- unlist(lapply(firstname, function(x) {
+  #   x %>%
+  #     stringr::str_trim() %>%
+  #     split_one("-|\\s+") %>%
+  #     stringr::str_sub(1, 1) %>%
+  #     stringr::str_to_lower() %>%
+  #     replace_umlauts() %>%
+  #     paste0(".") %>%
+  #     dash_collapsed()
+  # }))
 
   dir_lastname <- lastname %>%
     stringr::str_trim() %>%
@@ -99,68 +89,55 @@ construct_dirname <- function(firstname,
     stringr::str_to_lower() %>%
     replace_umlauts()
 
-  sprintf("%s", dir_lastname)
+  dir_lastname
 }
 
 #' @keywords internal
 #' @noRd
 #' @importFrom stringr str_split str_to_lower str_to_title str_trim str_sub str_replace_all
 #' @importFrom magrittr %>%
+construct_authorname <- function (firstname, lastname)
+{
+  firstname <- unlist(lapply(firstname, function(x) {
+    x %>%
+      stringr::str_trim() %>%
+      split_one("-|\\s+") %>%
+      stringr::str_sub(1, 1) %>%
+      stringr::str_to_upper() %>%
+      paste0(".", collapse = ifelse(grepl("-", x), "-", " "))
+  }))
 
-construct_authorname <- function (firstname, lastname){
-  author_firstname <-
-    unlist(lapply(seq_along(firstname), function(idx) {
-      tmp <- firstname[idx] %>%
-        stringr::str_trim() %>%
-        stringr::str_split("-|\\s+") %>%
-        unlist() %>%
-        stringr::str_sub(1, 1) %>%
-        stringr::str_to_upper()
-
-      paste0(sprintf("%s.", tmp),
-             collapse = ifelse(grepl("-", firstname[idx]), "-", " "))
-    }))
-
-  author_lastname <-  lastname %>%
-    stringr::str_trim() %>%
+  lastname <- lastname %>%
     stringr::str_replace_all("\\s+", " ") %>%
-    stringr::str_to_title()
+    trimmed_title()
 
-  sprintf("%s, %s", author_lastname, author_firstname)
+  sprintf("%s, %s", lastname, firstname)
 }
-
 
 #' Get Authors Metadata
 #'
 #' @param authors_config default: get_authors_config()
 #' @return add authors metadata (email, dirname)
 #' @export
-add_authors_metadata <- function(authors_config = get_authors_config()) {
+add_authors_metadata <- function(authors_config = get_authors_config())
+{
+  firstnames <- authors_config$firstname
+  lastnames <- authors_config$lastname
 
-  email_idx <- which(is.na(authors_config$social_email))
+  no_social <- is.na(authors_config$social_email)
 
-  if(length(email_idx) > 1) {
-    emails <- construct_email(authors_config$firstname[email_idx],
-                              authors_config$lastname[email_idx])
+  if (sum(no_social) > 1L)
+    authors_config$social_email[no_social] <- construct_email(
+      firstnames[no_social], lastnames[no_social]
+    )
 
-    authors_config$social_email[email_idx] <- emails
-  }
-
-  authors_config$fullname <- construct_fullname(authors_config$firstname,
-                                               authors_config$lastname)
-
-  authors_config$author_name <- construct_authorname(authors_config$firstname,
-                                                    authors_config$lastname)
-
-  authors_config$dir_name <- construct_dirname(authors_config$firstname,
-                                               authors_config$lastname)
-
-
-  authors_config$social_telephone <- construct_phonenumbers(
-    authors_config$social_telephone)
-
-  authors_config
-
+  kwb.utils::setColumns(
+    authors_config,
+    fullname = construct_fullname(firstnames, lastnames),
+    author_name = construct_authorname(firstnames, lastnames),
+    dir_name = construct_dirname(firstnames, lastnames),
+    social_telephone = construct_phonenumbers(authors_config$social_telephone)
+  )
 }
 
 #' Create Author Dir (if not existing)
@@ -169,26 +146,26 @@ add_authors_metadata <- function(authors_config = get_authors_config()) {
 #' @noRd
 #' @importFrom fs dir_exists dir_create path_abs
 #'
-create_author_dir <- function(author_dirname,
-                              hugo_root_dir = ".") {
+create_author_dir <- function(author_dirname, hugo_root_dir = ".")
+{
+  content_dir <- file.path(hugo_root_dir, "content")
 
-  content_dir <- file.path(hugo_root_dir,"content")
-
-  if(!fs::dir_exists(content_dir)) {
-    stop(sprintf("No directory '%s' exists!", fs::path_abs(content_dir)))
-  } else {
-    author_dir <- sprintf("%s/authors/%s",
-                          content_dir,
-                          author_dirname)
-
-    if(!fs::dir_exists(author_dir)) {
-      fs::dir_create(author_dir)
-    } else {
-      message(sprintf("Author directory '%s' already existing",
-                      fs::path_abs(author_dir)))
-    }
-    author_dir
+  if (! fs::dir_exists(content_dir)) {
+    stop(sprintf("Directory '%s' does not exist!", fs::path_abs(content_dir)))
   }
+
+  author_dir <- sprintf("%s/authors/%s", content_dir, author_dirname)
+
+  if (fs::dir_exists(author_dir)) {
+
+    message(
+      "Author directory '", fs::path_abs(author_dir), "' already existing"
+    )
+
+    return(author_dir)
+  }
+
+  fs::dir_create(author_dir)
 }
 
 #' Add Author Avatar
@@ -204,34 +181,34 @@ create_author_dir <- function(author_dirname,
 #' @export
 #' @importFrom magick image_read image_crop image_write geometry_area
 #' @importFrom fs dir_exists dir_create
-add_author_avatar <- function(author_metadata,
-                              overwrite = FALSE,
-                              hugo_root_dir = ".",
-                              width = 250,
-                              height = 300,
-                              x_off = 175,
-                              y_off = 0) {
+add_author_avatar <- function(
+  author_metadata,
+  overwrite = FALSE,
+  hugo_root_dir = ".",
+  width = 250,
+  height = 300,
+  x_off = 175,
+  y_off = 0
+)
+{
+  author_dir <- create_author_dir(
+    author_dirname = author_metadata$dir_name,
+    hugo_root_dir = hugo_root_dir
+  )
 
+  author_avatar <- file.path(author_dir, "avatar.jpg")
 
-    author_dir <- create_author_dir(author_dirname = author_metadata$dir_name,
-                                    hugo_root_dir = hugo_root_dir)
+  if (file.exists(author_avatar) && ! overwrite)
+    stop(
+      "Author avatar ", author_avatar, " already existing.\n",
+      "Set 'overwrite = TRUE' if you want to overwrite it!"
+    )
 
-    author_avatar <- file.path(author_dir, "avatar.jpg")
-
-    is_write <- !file.exists(author_avatar) || (overwrite && file.exists(author_avatar))
-
-    if(is_write) {
-    magick::image_read(author_metadata$avatar_source) %>%
-    magick::image_crop(geometry = magick::geometry_area(width,
-                                                        height,
-                                                        x_off,
-                                                        y_off)) %>%
+  magick::image_read(author_metadata$avatar_source) %>%
+    magick::image_crop(
+      geometry = magick::geometry_area(width, height, x_off, y_off)
+    ) %>%
     magick::image_write(author_avatar)
-    } else {
-      stop(sprintf("Author avatar %s already existing.\n
-Set 'overwrite = TRUE' if you want to overwrite it!", author_avatar))
-    }
-
 }
 
 #' Add Authors Avatars
@@ -240,14 +217,13 @@ Set 'overwrite = TRUE' if you want to overwrite it!", author_avatar))
 #' @param hugo_root_dir (default: ".")
 #' @return creates author avatars for all authors
 #' @export
-add_authors_avatar <- function(authors_metadata = add_authors_metadata(),
-                               overwrite = FALSE,
-                               hugo_root_dir = ".") {
-
-  sapply(seq_len(nrow(authors_metadata)), FUN = function(idx) {
-    try(add_author_avatar(author_metadata = authors_metadata[idx,],
-                      overwrite,
-                      hugo_root_dir))
-  })
-
+add_authors_avatar <- function(
+  authors_metadata = add_authors_metadata(),
+  overwrite = FALSE,
+  hugo_root_dir = "."
+)
+{
+  sapply(seq_len(nrow(authors_metadata)), FUN = function(i) try(
+    add_author_avatar(authors_metadata[i, ], overwrite, hugo_root_dir)
+  ))
 }
