@@ -11,10 +11,22 @@ check_hugo_pub_dir <- function(hugo_root_dir)
   path
 }
 
+# dash_collapsed ---------------------------------------------------------------
+dash_collapsed <- function(x)
+{
+  paste(x, collapse = "-")
+}
+
 # filter_records ---------------------------------------------------------------
 filter_records <- function(records, rec_ids)
 {
   records[get_record_number(records) %in% rec_ids, ]
+}
+
+# format_given -----------------------------------------------------------------
+format_given <- function(fmt, x)
+{
+  ifelse(x == "", "", sprintf(fmt, stringr::str_trim(x)))
 }
 
 # get_file_and_record ----------------------------------------------------------
@@ -117,6 +129,12 @@ insert_after <- function(x, pattern, what)
 last_matching <- function(pattern, x)
 {
   max(grep(pattern, x))
+}
+
+# space_collapsed --------------------------------------------------------------
+space_collapsed <- function(x)
+{
+  paste(x, collapse = " ")
 }
 
 # split_at_comma_or_newline ----------------------------------------------------
