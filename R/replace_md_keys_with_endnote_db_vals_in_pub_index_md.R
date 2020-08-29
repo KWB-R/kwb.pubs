@@ -1,4 +1,4 @@
-
+# replace_md_key_with_endnote_db_vals_in_pub_index_md --------------------------
 
 #' replace_md_key_with_endnote_db_vals_in_pub_index_md
 #'
@@ -6,37 +6,37 @@
 #' @noRd
 #' @importFrom stringr str_extract str_detect
 #' @importFrom kwb.fakin read_lines
-replace_md_key_with_endnote_db_vals_in_pub_index_md <- function (md_path,
-                                                                 md_key,
-                                                                     endnote_db_refs,
-                                                                     endnote_db_col,
-                                                 file_encoding = "UTF-8",
-                                                 dbg = TRUE) {
-
-  id <- as.numeric(stringr::str_extract(basename(dirname(md_path)),
-                                        pattern = "[0-9]+"))
-
+replace_md_key_with_endnote_db_vals_in_pub_index_md <- function(
+  md_path, md_key, endnote_db_refs, endnote_db_col, file_encoding = "UTF-8",
+  dbg = TRUE
+)
+{
+  id <- as.integer(stringr::str_extract(basename(dirname(md_path)), "[0-9]+"))
 
   ref <- endnote_db_refs[endnote_db_refs$id == id, ]
 
-  if(nrow(ref) == 1) {
+  if (nrow(ref) != 1L)
+    return()
 
-    pub_index_txt <- kwb.fakin::read_lines(md_path,
-                                           fileEncoding = file_encoding)
-    idx <- which(stringr::str_detect(pub_index_txt,
-                                     pattern = sprintf("^%s:", md_key)))
-    if (idx > 0) {
-      if(dbg) message(sprintf("Replacing %s in '%s' with values of column '%s' in Endnote DB",
-                              md_key,
-                              md_path,
-                              endnote_db_col))
-      pub_index_txt[idx] <- sprintf('%s: %s',
-                                    md_key,
-                                    ref[[endnote_db_col]])
-      write_lines(pub_index_txt, md_path, file_encoding)
-    }
-  }
+  pub_index_txt <- kwb.fakin::read_lines(md_path, fileEncoding = file_encoding)
+
+  idx <- which(stringr::str_detect(pub_index_txt, sprintf("^%s:", md_key)))
+
+  if (length(idx) == 0L)
+    return()
+
+  if (dbg)
+    message(sprintf(
+      "Replacing %s in '%s' with values of column '%s' in Endnote DB",
+      md_key, md_path, endnote_db_col
+    ))
+
+  pub_index_txt[idx] <- sprintf('%s: %s', md_key, ref[[endnote_db_col]])
+
+  write_lines(pub_index_txt, md_path, file_encoding)
 }
+
+# replace_md_keys_with_endnote_db_vals_in_pub_index_md -------------------------
 
 #' replace_md_keys_with_endnote_db_vals_in_pub_index_md
 #'
@@ -52,25 +52,19 @@ replace_md_key_with_endnote_db_vals_in_pub_index_md <- function (md_path,
 #' defined with parameter "endnote_db_col"
 #' @export
 
-replace_md_keys_with_endnote_db_vals_in_pub_index_md  <- function(md_paths,
-                md_key,
-                endnote_db_refs,
-                endnote_db_col,
-                file_encoding = "UTF-8",
-                dbg = TRUE) {
-
-sapply(md_paths,
-       function(md_path) {
-         replace_md_key_with_endnote_db_vals_in_pub_index_md(md_path,
-                                                             md_key,
-                                                             endnote_db_refs,
-                                                             endnote_db_col,
-                                                             file_encoding,
-                                                             dbg)
-
-       })
+replace_md_keys_with_endnote_db_vals_in_pub_index_md <- function(
+  md_paths, md_key, endnote_db_refs, endnote_db_col, file_encoding = "UTF-8",
+  dbg = TRUE
+)
+{
+  sapply(md_paths, function(md_path) {
+    replace_md_key_with_endnote_db_vals_in_pub_index_md(
+      md_path, md_key, endnote_db_refs, endnote_db_col, file_encoding, dbg
+    )
+  })
 }
 
+# replace_dates_in_pub_index_md ------------------------------------------------
 
 #' replace_dates_in_pub_index_md
 #'
@@ -86,21 +80,17 @@ sapply(md_paths,
 #' @return replaces "date" in markdown files based on values in column
 #' defined with parameter "endnote_db_col"
 #' @export
-replace_dates_in_pub_index_md <- function (md_paths,
-                                           endnote_db_refs,
-                                           md_key = "date",
-                                           endnote_db_col = "date_cleaned",
-                                           file_encoding = "UTF-8",
-                                           dbg = TRUE) {
-
-
-replace_md_keys_with_endnote_db_vals_in_pub_index_md(md_paths,
-                                                     md_key,
-                                                     endnote_db_refs,
-                                                     endnote_db_col,
-                                                     file_encoding,
-                                                     dbg)
+replace_dates_in_pub_index_md <- function(
+  md_paths, endnote_db_refs, md_key = "date", endnote_db_col = "date_cleaned",
+  file_encoding = "UTF-8", dbg = TRUE
+)
+{
+  replace_md_keys_with_endnote_db_vals_in_pub_index_md(
+    md_paths, md_key, endnote_db_refs, endnote_db_col, file_encoding, dbg
+  )
 }
+
+# replace_publishdates_in_pub_index_md -----------------------------------------
 
 #' replace_publishdates_in_pub_index_md
 #'
@@ -116,21 +106,17 @@ replace_md_keys_with_endnote_db_vals_in_pub_index_md(md_paths,
 #' @return replaces "publishDate" in markdown files based on values in column
 #' defined with parameter "endnote_db_col"
 #' @export
-replace_publishdates_in_pub_index_md <- function (md_paths,
-                                           endnote_db_refs,
-                                           md_key = "publishDate",
-                                           endnote_db_col = "publishDate",
-                                           file_encoding = "UTF-8",
-                                           dbg = TRUE) {
-
-
-  replace_md_keys_with_endnote_db_vals_in_pub_index_md(md_paths,
-                                                       md_key,
-                                                       endnote_db_refs,
-                                                       endnote_db_col,
-                                                       file_encoding,
-                                                       dbg)
+replace_publishdates_in_pub_index_md <- function(
+  md_paths, endnote_db_refs, md_key = "publishDate",
+  endnote_db_col = "publishDate", file_encoding = "UTF-8", dbg = TRUE
+)
+{
+  replace_md_keys_with_endnote_db_vals_in_pub_index_md(
+    md_paths, md_key, endnote_db_refs, endnote_db_col, file_encoding, dbg
+  )
 }
+
+# replace_publications_in_pub_index_md -----------------------------------------
 
 #' replace_publications_in_pub_index_md
 #'
@@ -142,23 +128,15 @@ replace_publishdates_in_pub_index_md <- function (md_paths,
 #' "publication")
 #' @param file_encoding default: "UTF-8
 #' @param dbg default: TRUE
-#'
 #' @return replaces "publication" entry in markdown files based on values in column
 #' defined with parameter "endnote_db_col"
 #' @export
-replace_publications_in_pub_index_md <- function (md_paths,
-                                                  endnote_db_refs,
-                                                  md_key = "publication",
-                                                  endnote_db_col = "publication",
-                                                  file_encoding = "UTF-8",
-                                                  dbg = TRUE) {
-
-
-  replace_md_keys_with_endnote_db_vals_in_pub_index_md(md_paths,
-                                                       md_key,
-                                                       endnote_db_refs,
-                                                       endnote_db_col,
-                                                       file_encoding,
-                                                       dbg)
+replace_publications_in_pub_index_md <- function(
+  md_paths, endnote_db_refs, md_key = "publication",
+  endnote_db_col = "publication", file_encoding = "UTF-8", dbg = TRUE
+)
+{
+  replace_md_keys_with_endnote_db_vals_in_pub_index_md(
+    md_paths, md_key, endnote_db_refs, endnote_db_col, file_encoding, dbg
+  )
 }
-
