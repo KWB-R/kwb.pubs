@@ -46,7 +46,7 @@ filter_records <- function(records, rec_ids)
 }
 
 # format_given -----------------------------------------------------------------
-format_given <- function(fmt, x)
+format_given <- function(x, fmt)
 {
   ifelse(x == "", "", sprintf(fmt, stringr::str_trim(x)))
 }

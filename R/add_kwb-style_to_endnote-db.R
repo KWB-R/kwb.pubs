@@ -294,18 +294,16 @@ add_kwb_style_to_reports <- function(endnote_db_refs)
 #' kwb_style_list <- add_kwb_style(endnote_db$refs)
 #' }
 #'
-add_kwb_style <- function(endnote_db_refs) {
-
-  kwb_style_list <- list(
+add_kwb_style <- function(endnote_db_refs)
+{
+  dplyr::bind_rows(.id = "reference_type_name", list(
     books = add_kwb_style_to_books(endnote_db_refs),
     book_sections = add_kwb_style_to_book_sections(endnote_db_refs),
     conferences = add_kwb_style_to_conferences(endnote_db_refs),
     journals = add_kwb_style_to_journals(endnote_db_refs),
     reports = add_kwb_style_to_reports(endnote_db_refs),
     theses = add_kwb_style_to_theses(endnote_db_refs)
-  )
-
-  dplyr::bind_rows(kwb_style_list, .id = "reference_type_name")
+  ))
 }
 
 # Test -------------------------------------------------------------------------
