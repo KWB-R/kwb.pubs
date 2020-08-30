@@ -170,108 +170,91 @@ get_reference_type <- function (endnote_db_refs, id)
   endnote_db_refs[is_sel_ref_type, ]
 }
 
-# add_kwb_style_to_books -------------------------------------------------------
-add_kwb_style_to_books <- function(endnote_db_refs)
+# reference_type_ids -----------------------------------------------------------
+reference_type_ids <- list(
+  book = 1L,
+  book_section = 7L,
+  conference = c(3L, 33L),
+  journal = 0L,
+  report = 10L,
+  thesis = 2L
+)
+
+# add_kwb_style_to -------------------------------------------------------------
+add_kwb_style_to <- function(
+  endnote_db_refs,
+  type = names(reference_type_ids)
+)
 {
-  ### books (reference_type == 1, i.e. id == 1)
-  x <- get_reference_type(endnote_db_refs, id = 1)
+  type <- match.arg(type)
 
-  x$publication <- sprintf(
-    "%s%s%s%s%s",
-    add_book_pages(x$pages),
-    format_given(x$secondary_title, fmts$dot_at_start),
-    add_book_publishers(x$publisher),
-    format_given(x$place_published, fmts$dot_at_start),
-    add_doi(x$electronic_resource_number)
-  )
+  x <- get_reference_type(endnote_db_refs, id = reference_type_ids[[type]])
 
-  x
-}
+  parts <- if (type == "book") {
 
-# add_kwb_style_to_book_sections -----------------------------------------------
-add_kwb_style_to_book_sections <- function(endnote_db_refs)
-{
-  ### book_sections (reference_type == 7, i.e. id == 7)
-  x <- get_reference_type(endnote_db_refs, id = 7)
+    list(
+      add_book_pages(x$pages),
+      format_given(x$secondary_title, fmts$dot_at_start),
+      add_book_publishers(x$publisher),
+      format_given(x$place_published, fmts$dot_at_start),
+      add_doi(x$electronic_resource_number)
+    )
 
-  x$publication <- sprintf(
-    "%s%s%s%s%s%s",
-    add_book_pages(x$pages),
-    add_book_editors(x$secondary_author),
-    add_book_title(x$secondary_title),
-    add_book_publishers(x$publisher),
-    format_given(x$place_published, fmts$dot_at_start),
-    add_doi(x$electronic_resource_number)
-  )
+  } else if (type == "book_section") {
 
-  x
-}
+    list(
+      add_book_pages(x$pages),
+      add_book_editors(x$secondary_author),
+      add_book_title(x$secondary_title),
+      add_book_publishers(x$publisher),
+      format_given(x$place_published, fmts$dot_at_start),
+      add_doi(x$electronic_resource_number)
+    )
 
-# add_kwb_style_to_theses ------------------------------------------------------
-add_kwb_style_to_theses <- function(endnote_db_refs)
-{
-  ### thesis (reference_type == 2, i.e. id == 2)
-  x <- get_reference_type(endnote_db_refs, id = 2)
+  } else if (type == "thesis") {
 
-  x$publication <- sprintf(
-    "%s%s%s%s",
-    format_given(x$type_of_work, fmts$dot_at_end),
-    format_given(x$secondary_title, fmts$dot_at_end),
-    format_given(x$publisher, fmts$space_at_start),
-    add_doi(x$electronic_resource_number)
-  )
+    list(
+      format_given(x$type_of_work, fmts$dot_at_end),
+      format_given(x$secondary_title, fmts$dot_at_end),
+      format_given(x$publisher, fmts$space_at_start),
+      add_doi(x$electronic_resource_number)
+    )
 
-  x
-}
+  } else if (type == "conference") {
 
-# add_kwb_style_to_conferences -------------------------------------------------
-add_kwb_style_to_conferences <- function(endnote_db_refs)
-{
-  ### conference_proceedings (reference_type == 3, i.e. id == 3)
-  ### conference_paper (reference_type == 33, i.e. id == 33)
-  x <- get_reference_type(endnote_db_refs, id = c(3, 33))
+    list(
+      add_book_pages(x$pages),
+      add_conference_name(x$secondary_title),
+      format_given(x$place_published, fmts$dot_at_start),
+      format_given(x$date, fmts$dot_at_start)
+      #, add_doi(x$electronic_resource_number)
+    )
 
-  x$publication <- sprintf(
-    "%s%s%s%s",
-    add_book_pages(x$pages),
-    add_conference_name(x$secondary_title),
-    format_given(x$place_published, fmts$dot_at_start),
-    format_given(x$date, fmts$dot_at_start),
-    add_doi(x$electronic_resource_number)
-  )
+  } else if (type == "journal") {
 
-  x
-}
+    list(
+      add_journal_name(x$secondary_title),
+      add_volume(x$volume),
+      add_issue(x$number),
+      format_given(x$pages, fmts$colon_at_start),
+      add_doi(x$electronic_resource_number)
+    )
 
-# add_kwb_style_to_journals ----------------------------------------------------
-add_kwb_style_to_journals <- function(endnote_db_refs)
-{
-  ### journal_papers (reference_type == 0, i.e. id == 0)
-  x <- get_reference_type(endnote_db_refs, id = 0)
+  } else if (type == "report") {
 
-  x$publication <- sprintf(
-    "%s%s%s%s%s",
-    add_journal_name(x$secondary_title),
-    add_volume(x$volume),
-    add_issue(x$number),
-    format_given(x$pages, fmts$colon_at_start),
-    add_doi(x$electronic_resource_number)
-  )
+    list(
+      add_publishers(x$publisher),
+      add_doi(x$electronic_resource_number)
+    )
 
-  x
-}
+  } else {
 
-# add_kwb_style_to_reports -----------------------------------------------------
-add_kwb_style_to_reports <- function(endnote_db_refs)
-{
-  ### reports (reference_type == 10, i.e. id == 10)
-  x <- get_reference_type(endnote_db_refs, id = 10)
+    stop(
+      "Type '", type, "' is not supported in add_kwb_style_to()", call. = FALSE
+    )
+  }
 
-  x$publication <- sprintf(
-    "%s%s",
-    add_publishers(x$publisher),
-    add_doi(x$electronic_resource_number)
-  )
+  x$publication <- do.call(paste0, parts)
 
   x
 }
@@ -297,12 +280,12 @@ add_kwb_style_to_reports <- function(endnote_db_refs)
 add_kwb_style <- function(endnote_db_refs)
 {
   dplyr::bind_rows(.id = "reference_type_name", list(
-    books = add_kwb_style_to_books(endnote_db_refs),
-    book_sections = add_kwb_style_to_book_sections(endnote_db_refs),
-    conferences = add_kwb_style_to_conferences(endnote_db_refs),
-    journals = add_kwb_style_to_journals(endnote_db_refs),
-    reports = add_kwb_style_to_reports(endnote_db_refs),
-    theses = add_kwb_style_to_theses(endnote_db_refs)
+    books         = add_kwb_style_to(endnote_db_refs, type = "book"),
+    book_sections = add_kwb_style_to(endnote_db_refs, type = "book_section"),
+    conferences   = add_kwb_style_to(endnote_db_refs, type = "conference"),
+    journals      = add_kwb_style_to(endnote_db_refs, type = "journal"),
+    reports       = add_kwb_style_to(endnote_db_refs, type = "report"),
+    theses        = add_kwb_style_to(endnote_db_refs, type = "thesis")
   ))
 }
 
