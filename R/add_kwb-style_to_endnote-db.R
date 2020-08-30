@@ -190,10 +190,9 @@ add_kwb_style_to <- function(
 
   x <- get_reference_type(endnote_db_refs, id = reference_type_ids[[type]])
 
-  x$publication <- if (type == "book") {
+  parts <- if (type == "book") {
 
-    sprintf(
-      "%s%s%s%s%s",
+    list(
       add_book_pages(x$pages),
       format_given(x$secondary_title, fmts$dot_at_start),
       add_book_publishers(x$publisher),
@@ -203,8 +202,7 @@ add_kwb_style_to <- function(
 
   } else if (type == "book_section") {
 
-    sprintf(
-      "%s%s%s%s%s%s",
+    list(
       add_book_pages(x$pages),
       add_book_editors(x$secondary_author),
       add_book_title(x$secondary_title),
@@ -215,8 +213,7 @@ add_kwb_style_to <- function(
 
   } else if (type == "thesis") {
 
-    sprintf(
-      "%s%s%s%s",
+    list(
       format_given(x$type_of_work, fmts$dot_at_end),
       format_given(x$secondary_title, fmts$dot_at_end),
       format_given(x$publisher, fmts$space_at_start),
@@ -225,19 +222,17 @@ add_kwb_style_to <- function(
 
   } else if (type == "conference") {
 
-    sprintf(
-      "%s%s%s%s",
+    list(
       add_book_pages(x$pages),
       add_conference_name(x$secondary_title),
       format_given(x$place_published, fmts$dot_at_start),
-      format_given(x$date, fmts$dot_at_start),
-      add_doi(x$electronic_resource_number)
+      format_given(x$date, fmts$dot_at_start)
+      #, add_doi(x$electronic_resource_number)
     )
 
   } else if (type == "journal") {
 
-    sprintf(
-      "%s%s%s%s%s",
+    list(
       add_journal_name(x$secondary_title),
       add_volume(x$volume),
       add_issue(x$number),
@@ -247,13 +242,19 @@ add_kwb_style_to <- function(
 
   } else if (type == "report") {
 
-    sprintf(
-      "%s%s",
+    list(
       add_publishers(x$publisher),
       add_doi(x$electronic_resource_number)
     )
 
+  } else {
+
+    stop(
+      "Type '", type, "' is not supported in add_kwb_style_to()", call. = FALSE
+    )
   }
+
+  x$publication <- do.call(paste0, parts)
 
   x
 }
