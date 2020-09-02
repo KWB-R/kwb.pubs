@@ -8,25 +8,19 @@
 #' @noRd
 #' @importFrom stringr str_detect
 #'
-replace_author_umlauts_in_pub_index_md <- function(path,
-                                                   encoding = "UTF-8") {
+replace_author_umlauts_in_pub_index_md <- function(path, encoding = "UTF-8")
+{
+  pub_index_txt <- readLines(path, encoding = encoding)
 
-  pub_index_txt <- readLines(path,
-                             encoding = encoding)
+  idx <- which(stringr::str_detect(pub_index_txt, pattern = "^author"))
 
-idx <- which(stringr::str_detect(pub_index_txt, pattern = "^author"))
+  if (length(idx) == 0L)
+    return()
 
-if (idx > 0) {
   message(sprintf("Replacing German umlauts in '%s'", path))
   pub_index_txt[idx] <- replace_umlauts(pub_index_txt[idx])
-
-  writeLines(pub_index_txt,
-           path,
-           useBytes = TRUE)
+  writeLines(pub_index_txt, path, useBytes = TRUE)
 }
-}
-
-
 
 #' Replace Author Umlauts in Multiple Publication Index.md
 #'
@@ -36,29 +30,28 @@ if (idx > 0) {
 #' but with "ae", "oe", "ue", "Ae", "Oe", "Ue", "ss" where needed
 #' @export
 #'
-replace_authors_umlauts_in_pub_index_md <- function(hugo_root_dir = ".",
-                                                    encoding = "UTF-8") {
-
-  paths <- get_publication_index_md_paths(hugo_root_dir)
-
-  sapply(paths, replace_author_umlauts_in_pub_index_md, encoding = encoding)
+replace_authors_umlauts_in_pub_index_md <- function(
+  hugo_root_dir = ".", encoding = "UTF-8"
+)
+{
+  sapply(
+    X = get_publication_index_md_paths(hugo_root_dir),
+    FUN = replace_author_umlauts_in_pub_index_md,
+    encoding = encoding
+  )
 }
 
-
-change_author_to_lastname_in_pub_index_md <- function(path,
-                                                   encoding = "UTF-8") {
-
-  pub_index_txt <- readLines(path,
-                             encoding = encoding)
+# change_author_to_lastname_in_pub_index_md ------------------------------------
+change_author_to_lastname_in_pub_index_md <- function(path, encoding = "UTF-8")
+{
+  pub_index_txt <- readLines(path, encoding = encoding)
 
   idx <- which(stringr::str_detect(pub_index_txt, pattern = "^author"))
 
-  if (idx > 0) {
-    message(sprintf("Replacing German umlauts in '%s'", path))
-    pub_index_txt[idx] <- replace_umlauts(pub_index_txt[idx])
-  }
+  if (length(idx) == 0L)
+    return()
 
-  writeLines(pub_index_txt,
-             path,
-             useBytes = TRUE)
+  message(sprintf("Replacing German umlauts in '%s'", path))
+  pub_index_txt[idx] <- replace_umlauts(pub_index_txt[idx])
+  writeLines(pub_index_txt, path, useBytes = TRUE)
 }

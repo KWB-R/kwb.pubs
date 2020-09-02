@@ -7,14 +7,17 @@
 #' @return all recursive "index.md" files in folder
 #' @export
 #' @importFrom fs path_abs dir_ls
-get_publication_index_md_paths <- function (hugo_root_dir = ".",
-                                            lang = "") {
+get_publication_index_md_paths <- function(hugo_root_dir = ".", lang = "")
+{
+  rel_path <- ifelse(
+    lang == "",
+    "content/publication",
+    sprintf("content/%s/publication", lang)
+  )
 
-  rel_path <- ifelse(lang == "",
-         "content/publication",
-         sprintf("content/%s/publication", lang))
-
-  pub_dir <- fs::path_abs(hugo_root_dir,
-                          rel_path)
-  fs::dir_ls(pub_dir, recurse = TRUE, regexp = "/index.md$")
+  fs::dir_ls(
+    fs::path_abs(hugo_root_dir, rel_path),
+    recurse = TRUE,
+    regexp = "/index.md$"
+  )
 }
