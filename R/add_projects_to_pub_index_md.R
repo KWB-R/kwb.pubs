@@ -11,6 +11,7 @@
 #' @importFrom dplyr mutate
 #' @importFrom rlang .data
 #' @importFrom kwb.utils stringList
+#' @importFrom stringr str_trim
 #' @examples
 #' \dontrun{
 #' endnote_list <- kwb.endnote::create_endnote_list()
@@ -27,7 +28,7 @@ add_projects_to_pub_index_md <- function(
     dplyr::mutate(
       project_names = split_at_comma_or_newline(.data[[col_project]]) %>%
         sapply(function(record) sprintf(
-          'projects: [%s]', kwb.utils::stringList(record, qchar = '"')
+          'projects: [%s]', kwb.utils::stringList(stringr::str_trim(record), qchar = '"')
         ))
     )
 
