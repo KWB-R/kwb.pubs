@@ -34,8 +34,8 @@ replace_md_key_with_endnote_db_vals_in_pub_index_md <- function(
 
   pub_index_txt[idx] <- sprintf('%s: %s', md_key,
                                 ifelse(escape_with_double_quote,
-                                       ref[[endnote_db_col]],
-                                       sprintf('"%s"',ref[[endnote_db_col]])))
+                                       sprintf('"%s"',ref[[endnote_db_col]]),
+                                       ref[[endnote_db_col]]))
 
   write_lines(pub_index_txt, md_path, file_encoding)
 }
@@ -141,7 +141,7 @@ replace_publishdates_in_pub_index_md <- function(
 #' @export
 replace_publications_in_pub_index_md <- function(
   md_paths, endnote_db_refs, md_key = "publication",
-  endnote_db_col = "publication", file_encoding = "UTF-8", escape_with_double_quote = TRUE, dbg = TRUE
+  endnote_db_col = "publication", file_encoding = "UTF-8", escape_with_double_quote = FALSE, dbg = TRUE
 )
 {
   replace_md_keys_with_endnote_db_vals_in_pub_index_md(
@@ -161,17 +161,18 @@ replace_publications_in_pub_index_md <- function(
 #' @param endnote_db_col column with values to be used for replacement (default:
 #' "abstract")
 #' @param file_encoding default: "UTF-8
+#' @param escape_with_double_quote should be double quotes added "<endnote-value>" (default: TRUE)
 #' @param dbg default: TRUE
 #' @return replaces "publication" entry in markdown files based on values in column
 #' defined with parameter "endnote_db_col"
 #' @export
 replace_abstracts_in_pub_index_md <- function(
   md_paths, endnote_db_refs, md_key = "abstract",
-  endnote_db_col = "abstract", file_encoding = "UTF-8", dbg = TRUE
+  endnote_db_col = "abstract", file_encoding = "UTF-8", escape_with_double_quote = TRUE, dbg = TRUE
 )
 {
   replace_md_keys_with_endnote_db_vals_in_pub_index_md(
-    md_paths, md_key, endnote_db_refs, endnote_db_col, file_encoding, dbg
+    md_paths, md_key, endnote_db_refs, endnote_db_col, file_encoding, escape_with_double_quote, dbg
   )
 }
 

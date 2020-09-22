@@ -11,6 +11,7 @@ replace_abstracts_in_pub_index_md(
   md_key = "abstract",
   endnote_db_col = "abstract",
   file_encoding = "UTF-8",
+  escape_with_double_quote = TRUE,
   dbg = TRUE
 )
 }
@@ -26,6 +27,8 @@ replace_abstracts_in_pub_index_md(
 "abstract")}
 
 \item{file_encoding}{default: "UTF-8}
+
+\item{escape_with_double_quote}{should be double quotes added "<endnote-value>" (default: TRUE)}
 
 \item{dbg}{default: TRUE}
 }
