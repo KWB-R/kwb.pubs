@@ -11,6 +11,7 @@ replace_md_keys_with_endnote_db_vals_in_pub_index_md(
   endnote_db_refs,
   endnote_db_col,
   file_encoding = "UTF-8",
+  escape_with_double_quote = FALSE,
   dbg = TRUE
 )
 }
@@ -25,6 +26,8 @@ replace_md_keys_with_endnote_db_vals_in_pub_index_md(
 \item{endnote_db_col}{column with values to be used for replacement}
 
 \item{file_encoding}{default: "UTF-8}
+
+\item{escape_with_double_quote}{should be double quotes added "<endnote-value>" (default: FALSE)}
 
 \item{dbg}{default: TRUE}
 }

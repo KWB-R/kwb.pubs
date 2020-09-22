@@ -11,6 +11,7 @@ replace_publications_in_pub_index_md(
   md_key = "publication",
   endnote_db_col = "publication",
   file_encoding = "UTF-8",
+  escape_with_double_quote = TRUE,
   dbg = TRUE
 )
 }
@@ -26,6 +27,8 @@ replace_publications_in_pub_index_md(
 "publication")}
 
 \item{file_encoding}{default: "UTF-8}
+
+\item{escape_with_double_quote}{should be double quotes added "<endnote-value>" (default: FALSE)}
 
 \item{dbg}{default: TRUE}
 }

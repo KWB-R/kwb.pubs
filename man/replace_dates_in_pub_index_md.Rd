@@ -11,6 +11,7 @@ replace_dates_in_pub_index_md(
   md_key = "date",
   endnote_db_col = "date_cleaned",
   file_encoding = "UTF-8",
+  escape_with_double_quote = FALSE,
   dbg = TRUE
 )
 }
@@ -26,6 +27,8 @@ replace_dates_in_pub_index_md(
 "date_cleaned")}
 
 \item{file_encoding}{default: "UTF-8}
+
+\item{escape_with_double_quote}{should be double quotes added "<endnote-value>" (default: FALSE)}
 
 \item{dbg}{default: TRUE}
 }
