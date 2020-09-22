@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>replace_dates_in_pub_index_md — replace_dates_in_pub_index_md • kwb.pubs</title>
+<title>replace_abstracts_in_pub_index_md — replace_abstracts_in_pub_index_md • kwb.pubs</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="replace_dates_in_pub_index_md — replace_dates_in_pub_index_md" />
-<meta property="og:description" content="replace_dates_in_pub_index_md" />
+<meta property="og:title" content="replace_abstracts_in_pub_index_md — replace_abstracts_in_pub_index_md" />
+<meta property="og:description" content="replace_abstracts_in_pub_index_md" />
 
 
 <meta name="robots" content="noindex">
@@ -123,22 +123,22 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>replace_dates_in_pub_index_md</h1>
+    <h1>replace_abstracts_in_pub_index_md</h1>
     <small class="dont-index">Source: <a href='https://github.com/KWB-R/kwb.pubs/blob/master/R/replace_md_keys_with_endnote_db_vals_in_pub_index_md.R'><code>R/replace_md_keys_with_endnote_db_vals_in_pub_index_md.R</code></a></small>
-    <div class="hidden name"><code>replace_dates_in_pub_index_md.Rd</code></div>
+    <div class="hidden name"><code>replace_abstracts_in_pub_index_md.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>replace_dates_in_pub_index_md</p>
+    <p>replace_abstracts_in_pub_index_md</p>
     </div>
 
-    <pre class="usage"><span class='fu'>replace_dates_in_pub_index_md</span>(
+    <pre class="usage"><span class='fu'>replace_abstracts_in_pub_index_md</span>(
   <span class='kw'>md_paths</span>,
   <span class='kw'>endnote_db_refs</span>,
-  md_key = <span class='st'>"date"</span>,
-  endnote_db_col = <span class='st'>"date_cleaned"</span>,
+  md_key = <span class='st'>"abstract"</span>,
+  endnote_db_col = <span class='st'>"abstract"</span>,
   file_encoding = <span class='st'>"UTF-8"</span>,
-  escape_with_double_quote = <span class='fl'>FALSE</span>,
+  escape_with_double_quote = <span class='fl'>TRUE</span>,
   dbg = <span class='fl'>TRUE</span>
 )</pre>
 
@@ -156,12 +156,12 @@
     </tr>
     <tr>
       <th>md_key</th>
-      <td><p>markdown key pattern to search for (default: "date")</p></td>
+      <td><p>markdown key pattern to search for (default: "abstract")</p></td>
     </tr>
     <tr>
       <th>endnote_db_col</th>
       <td><p>column with values to be used for replacement (default:
-"date_cleaned")</p></td>
+"abstract")</p></td>
     </tr>
     <tr>
       <th>file_encoding</th>
@@ -169,7 +169,7 @@
     </tr>
     <tr>
       <th>escape_with_double_quote</th>
-      <td><p>should be double quotes added "&lt;endnote-value&gt;" (default: FALSE)</p></td>
+      <td><p>should be double quotes added "&lt;endnote-value&gt;" (default: TRUE)</p></td>
     </tr>
     <tr>
       <th>dbg</th>
@@ -179,7 +179,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>replaces "date" in markdown files based on values in column
+    <p>replaces "publication" entry in markdown files based on values in column
 defined with parameter "endnote_db_col"</p>
 
   </div>

@@ -46,7 +46,8 @@
 
 
 <meta property="og:title" content="add_publishdate_to_endnote_db — add_publishdate_to_endnote_db" />
-<meta property="og:description" content="add_publishdate_to_endnote_db" />
+<meta property="og:description" content="add_publishdate_to_endnote_db
+add_publishdate_to_endnote_db" />
 
 
 <meta name="robots" content="noindex">
@@ -124,15 +125,18 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>add_publishdate_to_endnote_db</h1>
-    <small class="dont-index">Source: <a href='https://github.com/KWB-R/kwb.pubs/blob/master/R/add_publishdate_to_endnote_db.R'><code>R/add_publishdate_to_endnote_db.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/KWB-R/kwb.pubs/blob/master/R/add_abstracts_to_endnote_db.R'><code>R/add_abstracts_to_endnote_db.R</code></a>, <a href='https://github.com/KWB-R/kwb.pubs/blob/master/R/add_publishdate_to_endnote_db.R'><code>R/add_publishdate_to_endnote_db.R</code></a></small>
     <div class="hidden name"><code>add_publishdate_to_endnote_db.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>add_publishdate_to_endnote_db</p>
+<p>add_publishdate_to_endnote_db</p>
     </div>
 
-    <pre class="usage"><span class='fu'>add_publishdate_to_endnote_db</span>(<span class='kw'>endnote_db_refs</span>)</pre>
+    <pre class="usage"><span class='fu'>add_publishdate_to_endnote_db</span>(<span class='kw'>endnote_db_refs</span>)
+
+<span class='fu'>add_publishdate_to_endnote_db</span>(<span class='kw'>endnote_db_refs</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,9 +152,15 @@
 
     <p>Endnotes "refs" table with added columns "publish_datetime",
 "publishDate" (required for hugo-academic) and "date-cleaned"</p>
+<p>Endnotes "refs" table with added columns "publish_datetime",
+"publishDate" (required for hugo-academic) and "date-cleaned"</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>endnote_db</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_endnote_db.html'>read_endnote_db</a></span>(path = <span class='st'>"../../dms/2020-07-08/KWB-documents_20191205.Data/sdb/sdb.eni"</span>)
+<span class='kw'>en_db_with_publishdates</span> <span class='op'>&lt;-</span> <span class='fu'>add_publishdate_to_endnote_db</span>(<span class='kw'>endnote_db</span><span class='op'>$</span><span class='kw'>refs</span>)
+}
+<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='kw'>endnote_db</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_endnote_db.html'>read_endnote_db</a></span>(path = <span class='st'>"../../dms/2020-07-08/KWB-documents_20191205.Data/sdb/sdb.eni"</span>)
 <span class='kw'>en_db_with_publishdates</span> <span class='op'>&lt;-</span> <span class='fu'>add_publishdate_to_endnote_db</span>(<span class='kw'>endnote_db</span><span class='op'>$</span><span class='kw'>refs</span>)
 }
