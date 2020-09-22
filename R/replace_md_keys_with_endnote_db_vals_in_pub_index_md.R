@@ -157,7 +157,7 @@ replace_publications_in_pub_index_md <- function(
 #' @return replaces "publication" entry in markdown files based on values in column
 #' defined with parameter "endnote_db_col"
 #' @export
-replace_publications_in_pub_index_md <- function(
+replace_abstracts_in_pub_index_md <- function(
   md_paths, endnote_db_refs, md_key = "abstract",
   endnote_db_col = "abstract", file_encoding = "UTF-8", dbg = TRUE
 )
