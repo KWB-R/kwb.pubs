@@ -34,8 +34,8 @@ replace_md_key_with_endnote_db_vals_in_pub_index_md <- function(
 
   pub_index_txt[idx] <- sprintf('%s: %s', md_key,
                                 ifelse(escape_with_double_quote,
-                                       ref[[endnote_db_col]],
-                                       sprintf('"%s"',ref[[endnote_db_col]])))
+                                       sprintf('"%s"',ref[[endnote_db_col]]),
+                                       ref[[endnote_db_col]]))
 
   write_lines(pub_index_txt, md_path, file_encoding)
 }
