@@ -140,3 +140,30 @@ replace_publications_in_pub_index_md <- function(
     md_paths, md_key, endnote_db_refs, endnote_db_col, file_encoding, dbg
   )
 }
+
+
+# replace_abstracts_in_pub_index_md -----------------------------------------
+
+#' replace_abstracts_in_pub_index_md
+#'
+#' @param md_paths paths to "publication" markdown files
+#' @param endnote_db_refs table "refs" in Endnote DB (as retrieved by
+#' [add_columns_to_endnote_db])
+#' @param md_key markdown key pattern to search for (default: "abstract")
+#' @param endnote_db_col column with values to be used for replacement (default:
+#' "abstract")
+#' @param file_encoding default: "UTF-8
+#' @param dbg default: TRUE
+#' @return replaces "publication" entry in markdown files based on values in column
+#' defined with parameter "endnote_db_col"
+#' @export
+replace_publications_in_pub_index_md <- function(
+  md_paths, endnote_db_refs, md_key = "abstract",
+  endnote_db_col = "abstract", file_encoding = "UTF-8", dbg = TRUE
+)
+{
+  replace_md_keys_with_endnote_db_vals_in_pub_index_md(
+    md_paths, md_key, endnote_db_refs, endnote_db_col, file_encoding, dbg
+  )
+}
+
