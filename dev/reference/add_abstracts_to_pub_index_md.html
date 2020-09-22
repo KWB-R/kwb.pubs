@@ -133,9 +133,9 @@
     </div>
 
     <pre class="usage"><span class='fu'>add_abstracts_to_pub_index_md</span>(
-  <span class='no'>endnote_df</span>,
-  <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>hugo_root_dir</span> <span class='kw'>=</span> <span class='st'>"."</span>
+  <span class='kw'>endnote_df</span>,
+  overwrite = <span class='fl'>FALSE</span>,
+  hugo_root_dir = <span class='st'>"."</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -161,11 +161,12 @@ or kwb.endnote::clean_references_df()</p></td>
     <p>add abstracts to index.md</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>endnote_list</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.endnote</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/kwb.endnote/man/create_endnote_list.html'>create_endnote_list</a></span>()
-<span class='no'>endnote_df</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>kwb.endnote</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/kwb.endnote/man/clean_references_df.html'>clean_references_df</a></span>(<span class='no'>endnote_list</span>)
-<span class='fu'>add_abstracts_to_pub_index_md</span>(<span class='kw'>endnote_df</span> <span class='kw'>=</span> <span class='no'>endnote_df</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>endnote_list</span> <span class='op'>&lt;-</span> <span class='kw'>kwb.endnote</span>::<span class='fu'><a href='https://rdrr.io/pkg/kwb.endnote/man/create_endnote_list.html'>create_endnote_list</a></span>()
+<span class='kw'>endnote_df</span> <span class='op'>&lt;-</span> <span class='kw'>kwb.endnote</span>::<span class='fu'><a href='https://rdrr.io/pkg/kwb.endnote/man/clean_references_df.html'>clean_references_df</a></span>(<span class='kw'>endnote_list</span>)
+<span class='fu'>add_abstracts_to_pub_index_md</span>(endnote_df = <span class='kw'>endnote_df</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -181,7 +182,7 @@ or kwb.endnote::clean_references_df()</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
