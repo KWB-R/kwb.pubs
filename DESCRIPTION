@@ -1,7 +1,7 @@
 Package: kwb.pubs
 Title: Helper Functions for Generating Publications Website
     Based on Hugo Academic Theme
-Version: 0.1.0.9000
+Version: 0.2.0
 Authors@R: 
     c(person(given = "Michael",
              family = "Rustler",
