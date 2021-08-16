@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create Author Interests — create_author_interests • kwb.pubs</title>
+<title>add_kwb_style — add_kwb_style • kwb.pubs</title>
 
 
 <!-- jquery -->
@@ -45,8 +45,8 @@
 
 
 
-<meta property="og:title" content="Create Author Interests — create_author_interests" />
-<meta property="og:description" content="Create Author Interests" />
+<meta property="og:title" content="add_kwb_style — add_kwb_style" />
+<meta property="og:description" content="add_kwb_style" />
 
 
 
@@ -123,30 +123,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create Author Interests</h1>
-    <small class="dont-index">Source: <a href='https://github.com/KWB-R/kwb.pubs/blob/master/R/add_authors_index_md.R'><code>R/add_authors_index_md.R</code></a></small>
-    <div class="hidden name"><code>create_author_interests.Rd</code></div>
+    <h1>add_kwb_style</h1>
+    <small class="dont-index">Source: <a href='https://github.com/KWB-R/kwb.pubs/blob/master/R/add_kwb-style_to_endnote-db.R'><code>R/add_kwb-style_to_endnote-db.R</code></a></small>
+    <div class="hidden name"><code>add_kwb_style.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create Author Interests</p>
+    <p>add_kwb_style</p>
     </div>
 
-    <pre class="usage"><span class='fu'>create_author_interests</span><span class='op'>(</span><span class='va'>author_metadata</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>add_kwb_style</span><span class='op'>(</span><span class='va'>endnote_db_refs</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>author_metadata</th>
-      <td><p>one record as retrieved by add_authors_metadata()</p></td>
+      <th>endnote_db_refs</th>
+      <td><p>table "refs" in Endnote DB (as retrieved by
+[read_endnote_db])</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>txt with interests</p>
+    <p>Endnotes "refs" table with added columns "reference_type_name"
+(translating "reference_type" to "own" classes) and "publication" (used for
+hugo-academic)</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>endnote_db</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_endnote_db.html'>read_endnote_db</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='st'>"../../dms/2020-07-08/KWB-documents_20191205.Data/sdb/sdb.eni"</span><span class='op'>)</span>
+<span class='va'>kwb_style_list</span> <span class='op'>&lt;-</span> <span class='fu'>add_kwb_style</span><span class='op'>(</span><span class='va'>endnote_db</span><span class='op'>$</span><span class='va'>refs</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
