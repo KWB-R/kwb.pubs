@@ -6,76 +6,47 @@
 #' @param hugo_root_dir root dir of hugo-academic website (default: ".")
 #' @return add abstracts to index.md
 #' @export
-#' @importFrom stringr str_replace str_extract str_replace_all
-#' @importFrom fs dir_ls
 #' @examples
 #' \dontrun{
 #' endnote_list <- kwb.endnote::create_endnote_list()
 #' endnote_df <- kwb.endnote::clean_references_df(endnote_list)
 #' add_abstracts_to_pub_index_md(endnote_df = endnote_df)
 #' }
-add_abstracts_to_pub_index_md <- function(endnote_df,
-                                          overwrite = FALSE,
-                                          hugo_root_dir = ".") {
+add_abstracts_to_pub_index_md <- function(
+  endnote_df, overwrite = FALSE, hugo_root_dir = "."
+)
+{
+  pub_dir_info <- get_pub_dir_info(check_hugo_pub_dir(hugo_root_dir))
 
-hugo_pub_dir <- sprintf("%s/content/publication", hugo_root_dir)
+  recs_in_pubs <- filter_records(endnote_df, pub_dir_info$rec_ids)
 
-if(!dir.exists(hugo_pub_dir)) {
-  msg <- sprintf("Hugo publication dir %s does not exist", hugo_pub_dir)
-  stop(msg)
-}
+  for (rec_id in get_record_number(recs_in_pubs)) {
 
-pub_dirs <- fs::dir_ls(hugo_pub_dir, type = "directory")
-pub_id_pattern <- "[0-9]?[0-9]?[0-9]?[0-9]$"
-pub_dir <- unique(stringr::str_remove(pub_dirs,
-                                pattern = pub_id_pattern))
+    print(sprintf("rec_id: %s", rec_id))
 
-rec_ids <- stringr::str_extract(pub_dirs,
-                                pattern = pub_id_pattern)
+    file_and_record <- get_file_and_record(
+      pub_dir = pub_dir_info$pub_dir,
+      recs_in_pubs = recs_in_pubs,
+      rec_id = rec_id,
+      field = "abstract",
+      subject = "abstract"
+    )
 
-rec_ids <- rec_ids[!is.na(rec_ids)]
+    if (is.null(file_and_record))
+      next
 
-recs_in_pubs <- endnote_df[endnote_df$rec_number %in% as.numeric(rec_ids),]
-for(rec_id in recs_in_pubs$rec_number) {
+    abstract <- file_and_record$record$abstract %>%
+      format_tag() %>%
+      sprintf(fmt = 'abstract = "%s"')
 
-print(sprintf("rec_id: %s", rec_id))
-sel_rec <- recs_in_pubs[recs_in_pubs$rec_number == as.numeric(rec_id), ]
-
-
-pub_index_md <- sprintf("%s%s/index.md", pub_dir, rec_id)
-if(file.exists(pub_index_md)) {
-dat <- readLines(con = pub_index_md)
-abstract_empty_idx <- grepl(pattern = "abstract(\\s+)?=(\\s+)?\"(\\s+)?\"", dat)
-
-abstract_filled_idx <- grepl(pattern = "abtract(\\s+)?=(\\s+)?\"\\w+", dat)
-
-
-
-if(!is.na(sel_rec$abstract)) {
-  clean_abstract <- sel_rec$abstract %>%
-    stringr::str_replace_all("\r", " ") %>%
-    stringr::str_replace_all("\"", "\\\\\"")
-  if(sum(abstract_empty_idx) == 1) {
-  print("Adding abstract...")
-  dat[abstract_empty_idx] <- sprintf('abstract = "%s"', clean_abstract)
-  writeLines(dat, con = pub_index_md,useBytes = TRUE)
-  } else if (sum(abstract_filled_idx) == 1 && overwrite) {
-    print("Adding abstract...")
-    dat[abstract_filled_idx] <- sprintf('abstract = "%s"', clean_abstract)
-    writeLines(dat, con = pub_index_md,useBytes = TRUE)
-  } else {
-    sep_idx <- max(grep(pattern = "\\+\\+\\+", dat))
-    before <- 1:(sep_idx-1)
-    after <-  sep_idx:length(dat)
-    dat <- c(dat[before],
-             sprintf('abstract = "%s"', clean_abstract) ,
-             dat[after])
+    rewrite_md_file(
+      file = file_and_record$pub_index_md,
+      pattern_empty = get_pattern("abstract_empty"),
+      pattern_filled = get_pattern("abstract_filled"),
+      pattern_sep = get_pattern("abstract_sep"),
+      content = abstract,
+      overwrite = overwrite,
+      subject = "abstract"
+    )
   }
-} else {
-  message("no abstract available")
-  }
-} else {
-  message(sprintf("%s is missing", pub_index_md))
-}
-}
 }

@@ -6,7 +6,7 @@
 \usage{
 add_projects_to_pub_index_md(
   endnote_df,
-  overwrite = FALSE,
+  overwrite = TRUE,
   col_project = "custom2",
   hugo_root_dir = "."
 )
@@ -15,7 +15,7 @@ add_projects_to_pub_index_md(
 \item{endnote_df}{endnote_df as retrieved by kwb.endnote::create_references_df()
 or kwb.endnote::clean_references_df()}
 
-\item{overwrite}{should existing "projects" be overwritten (default: FALSE)}
+\item{overwrite}{should existing "projects" be overwritten (default: TRUE)}
 
 \item{col_project}{name of column containing project id (default: "custom2")}
 
